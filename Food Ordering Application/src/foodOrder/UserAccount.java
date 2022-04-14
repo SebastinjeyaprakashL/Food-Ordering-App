@@ -1,0 +1,38 @@
+package foodOrder;
+
+import java.util.ArrayList;
+
+public class UserAccount implements AccountController {
+	private int userId;
+	private String name;
+	private String email;
+	private long mobileNum;
+	private String password;
+	private static ArrayList <UserAccount> userAccounts = new ArrayList <UserAccount>();
+	
+	UserAccount (String name, String email, long mobileNumber, String password){
+		this.name = name;
+		this.email = email;
+		this.mobileNum = mobileNumber;
+		this.password = password;
+		userAccounts.add(this);
+	}
+
+	public UserAccount() {
+	}
+	
+	@Override
+	public String getEmail() {
+		return this.email;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
+
+	@Override
+	public ArrayList<UserAccount> getUserAccounts() {
+		return UserAccount.userAccounts;
+	}
+}

@@ -1,0 +1,25 @@
+Admin Login
+
+
+Customer Login
+
+	After successful login 
+		List out available hotel
+	
+		Search :
+			Both admin and customer , able to search dish name or hotel
+				Using Dish Name 
+					==> Show hotel list containing the "searched dish"
+				Using hotel name
+					==> Show hotel with similar name 
+				
+		 After selecting hotel,
+			1.list out available dishes in the respective hotel
+				==> Dish name with price
+			==>User need to select the dish 
+				Ask user to add more dish or order or cancel
+					if (add more) 
+						go to number 1 and show 				
+					else 
+						go to order
+			
