@@ -34,15 +34,5 @@ public class MenuHandler {
 		}
 		return menuList;
 	}
-	
-//	public double getDishPrice(String dishName) {
-//		for(HotelMenu menuDetails : currentHotelmenuList) {
-//			if(menuDetails.dishName.equalsIgnoreCase(dishName)){
-//				return menuDetails.dishPrice; 
-//			}
-//		}
-//		return 0;
-//	}
-
 
 }
