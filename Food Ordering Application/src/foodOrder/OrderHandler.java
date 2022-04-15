@@ -174,8 +174,7 @@ public class OrderHandler {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return 0;
+		return 0;	
 	}
 	
 	public int getDishCountInCurrentOrder (String dishName) {
@@ -187,8 +186,7 @@ public class OrderHandler {
 					order.remove(o);
 					return dishCountInCurrentOrder;
 				}
-			}
-			
+			}	
 		}
 		catch (Exception e) {
 			e.printStackTrace();
