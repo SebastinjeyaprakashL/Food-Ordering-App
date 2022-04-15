@@ -6,10 +6,10 @@ import consoleInputOutput.UserOutput;
 public class Main {
 	
 	public static void main(String args []) {
-		UserAccount user1 = new UserAccount("User1","user1@testmail.com",989898989, "testUser1");
-		UserAccount user2 = new UserAccount("User2","User2@testmail.com",989898000, "testUser2");
-		UserAccount user3 = new UserAccount("User3","User3@testmail.com",989898634, "testUse3");
-		UserAccount user4 = new UserAccount("User4","test",989898634, "test");
+		new UserAccount("User1","user1@testmail.com",989898989, "testUser1");
+		new UserAccount("User2","User2@testmail.com",989898000, "testUser2");
+		new UserAccount("User3","User3@testmail.com",989898634, "testUse3");
+		new UserAccount("User4","test",989898634, "test");
 		
 		HotelHandler hotelHandler = new HotelHandler();
 		hotelHandler.addHotel(1,"Hotel1");
@@ -17,15 +17,15 @@ public class Main {
 		
 		
 		MenuHandler menuHandler = new MenuHandler();
-		menuHandler.addMenu(1,"chicken biriyani",100);
-		menuHandler.addMenu(1,"mutton biriyani", 250);
-		menuHandler.addMenu(1,"veg meals", 80);
+		menuHandler.addMenu(1,"Veg biriyani",100);
+		menuHandler.addMenu(1,"Fried Rice", 250);
+		menuHandler.addMenu(1,"Egg Biriyani", 80);
 		menuHandler.addMenu(1,"non-veg meals", 120);
 		
-		menuHandler.addMenu(2,"Tandoori",100);
-		menuHandler.addMenu(2,"Grill", 180);
-		menuHandler.addMenu(2,"Shawarma", 90);
-		menuHandler.addMenu(2,"Atho", 120);
+		menuHandler.addMenu(2,"Chicken Grill", 180);
+		menuHandler.addMenu(2,"Shawarma Roll", 90);
+		menuHandler.addMenu(2,"Shawarma Plate", 100);
+		menuHandler.addMenu(2,"Egg Atho Fry", 120);
 		
 		boolean staySignedInFlag = true;
 		Login login = new Login();
@@ -36,7 +36,7 @@ public class Main {
 				do {
 					UserOutput.consoleStringPrinter("Enter your choice : "
 							+ "\n1 - New Order"
-							+ "\n2 - Logout");
+							+ "\n0 - Logout");
 					int staySignedInOption = UserInputs.getIntUserInput();
 					if (staySignedInOption == 1) {
 						Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
@@ -46,10 +46,13 @@ public class Main {
 							continue;
 						}
 					}
-					else {
+					else if(staySignedInOption == 0){
 						break;
 					}
-					
+					else {
+						UserOutput.consoleStringPrinter("Invaid choice");
+						continue;
+					}
 				}while (staySignedInFlag == true);
 			}
 			catch (Exception e) {
@@ -59,11 +62,7 @@ public class Main {
 				UserOutput.consoleStringPrinter("Logged Out Successfully");
 				login = null;
 				System.gc();
-			}
-			
-		}
-		
-		
-		
+			}	
+		}		
 	}
 }

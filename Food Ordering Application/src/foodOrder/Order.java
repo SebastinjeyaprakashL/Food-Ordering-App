@@ -1,10 +1,6 @@
 package foodOrder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import consoleInputOutput.UserInputs;
-import consoleInputOutput.UserOutput;
 
 public class Order {
 	public int orderId;

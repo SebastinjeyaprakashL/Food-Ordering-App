@@ -8,7 +8,7 @@ import consoleInputOutput.UserOutput;
 public class HotelHandler {
 	public void addHotel (int hotelId, String hotelName) {
 		try {
-			Hotel newHotel = new Hotel(hotelId, hotelName);
+			new Hotel(hotelId, hotelName);
 		}
 		catch (Exception e) {
 		e.printStackTrace();	

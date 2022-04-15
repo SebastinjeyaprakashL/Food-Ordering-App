@@ -13,9 +13,10 @@ public class Login {
 	public UserAccount loginMenu() {
 		try {
 			do {
-				UserOutput.consoleStringPrinter("Enter your email");
+				UserOutput.consoleStringPrinter("Welcome To Food Ordering Console App");
+				UserOutput.consoleStringPrinter("\nEnter your email to login :");
 				username = UserInputs.getStringUserInput();
-				UserOutput.consoleStringPrinter("Enter your password :");
+				UserOutput.consoleStringPrinter("\nEnter your password :");
 				password = UserInputs.getStringUserInput();
 				currentUser = verifyUser(username, password);
 				if (currentUser == null) {

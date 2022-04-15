@@ -1,9 +1,6 @@
 package foodOrder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import consoleInputOutput.UserInputs;
 import consoleInputOutput.UserOutput;
 
@@ -77,10 +74,9 @@ public class OrderHandler {
 		try {
 			String dishName;
 			int dishCount = 0;
-				UserOutput.consoleStringPrinter("Choose the food you want to order :");
 				do {
-					
 					dishName = null;
+					dishCount = 0;
 					UserOutput.consoleStringPrinter("Enter the dish name :");
 					dishName = UserInputs.getStringUserInput();
 					int existingDishCountInCurrentOrder = getDishCountInCurrentOrder(dishName);
@@ -150,7 +146,7 @@ public class OrderHandler {
 				UserOutput.consoleStringPrinter("Order No: " + orderId
 												+"\nCustomer Name : " +currentUser.getName()
 												+ "\tHotel Name: "+hotel.hotelName
-												+ "\nDishName \tUnitPrice \tQuantity \tPrice");
+												+ "\nDishName \t\tUnitPrice \tQuantity \tPrice");
 				
 				for(Order currentOrder : order) {
 					double currentDishPrice = getDishPrice(currentOrder.dishName);
@@ -158,7 +154,7 @@ public class OrderHandler {
 					grossTotal = grossTotal + currentDishTotalPrice;
 					UserOutput.consoleStringPrinter(currentOrder.dishName +" \t\t"+currentDishPrice+ " \t\t"+currentOrder.dishCount +" \t\t"+currentDishTotalPrice);
 				}	
-				UserOutput.consoleStringPrinter("\t \t \t \t \t TOTAl :" + grossTotal);
+				UserOutput.consoleStringPrinter("\t \t \t \t \t \tTOTAl :" + grossTotal);
 			}
 		}
 		catch (Exception e) {
@@ -189,9 +185,10 @@ public class OrderHandler {
 				if (o.dishName.equalsIgnoreCase(dishName)) {
 					dishCountInCurrentOrder =  o.dishCount;
 					order.remove(o);
+					return dishCountInCurrentOrder;
 				}
 			}
-			return dishCountInCurrentOrder;
+			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
