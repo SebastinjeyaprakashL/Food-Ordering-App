@@ -35,4 +35,9 @@ public class UserAccount implements AccountController {
 	public ArrayList<UserAccount> getUserAccounts() {
 		return UserAccount.userAccounts;
 	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
 }

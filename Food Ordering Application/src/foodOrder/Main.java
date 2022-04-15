@@ -1,5 +1,6 @@
 package foodOrder;
 
+import consoleInputOutput.UserInputs;
 import consoleInputOutput.UserOutput;
 
 public class Main {
@@ -8,7 +9,7 @@ public class Main {
 		UserAccount user1 = new UserAccount("User1","user1@testmail.com",989898989, "testUser1");
 		UserAccount user2 = new UserAccount("User2","User2@testmail.com",989898000, "testUser2");
 		UserAccount user3 = new UserAccount("User3","User3@testmail.com",989898634, "testUse3");
-		UserAccount user4 = new UserAccount("User3","test",989898634, "test");
+		UserAccount user4 = new UserAccount("User4","test",989898634, "test");
 		
 		HotelHandler hotelHandler = new HotelHandler();
 		hotelHandler.addHotel(1,"Hotel1");
@@ -26,15 +27,31 @@ public class Main {
 		menuHandler.addMenu(2,"Shawarma", 90);
 		menuHandler.addMenu(2,"Atho", 120);
 		
+		boolean staySignedInFlag = true;
 		Login login = new Login();
 		UserAccount currentUser = login.loginMenu();
+		
 		if (currentUser != null) {
-			Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
-			if (selectedHotel != null) {
-				OrderHandler orderHandler = new OrderHandler();
-				orderHandler.createOrder(currentUser,selectedHotel.hotelId);
-				//Order newOrder = new Order();	
-			}
+			do {
+				UserOutput.consoleStringPrinter("Enter your choice : "
+						+ "\n1 - New Order"
+						+ "\n2 - Logout");
+				int staySignedInOption = UserInputs.getIntUserInput();
+				if (staySignedInOption == 1) {
+					Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
+					if (selectedHotel != null) {
+						OrderHandler orderHandler = new OrderHandler();
+						orderHandler.createOrder(currentUser,selectedHotel);
+						continue;
+					}
+				}
+				else {
+					break;
+				}
+				
+			}while (staySignedInFlag == true);
+			UserOutput.consoleStringPrinter("Logged Out Successfully");
+			System.gc();
 		}
 		
 		

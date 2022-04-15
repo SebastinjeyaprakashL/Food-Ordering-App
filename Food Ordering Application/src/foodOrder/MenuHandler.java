@@ -18,9 +18,11 @@ public class MenuHandler {
 	public void showHotelMenu(int hotelId) {
 		
 		currentHotelmenuList = getCurrentHotelMenu(hotelId);
+		UserOutput.consoleStringPrinter("\t\t-----------Menu-----------");
 		for(HotelMenu menu : currentHotelmenuList) {
-			UserOutput.consoleStringPrinter(menu.dishName + " - " + menu.dishPrice);
+			UserOutput.consoleStringPrinter("\t\t"+menu.dishName + " - " + menu.dishPrice);
 		}
+		UserOutput.consoleStringPrinter("\t\t-----------END-----------");
 	}
 	
 	public ArrayList<HotelMenu> getCurrentHotelMenu(int hotelId){
@@ -32,6 +34,15 @@ public class MenuHandler {
 		}
 		return menuList;
 	}
+	
+//	public double getDishPrice(String dishName) {
+//		for(HotelMenu menuDetails : currentHotelmenuList) {
+//			if(menuDetails.dishName.equalsIgnoreCase(dishName)){
+//				return menuDetails.dishPrice; 
+//			}
+//		}
+//		return 0;
+//	}
 
 
 }

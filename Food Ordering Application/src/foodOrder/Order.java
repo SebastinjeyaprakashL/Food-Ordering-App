@@ -7,18 +7,16 @@ import consoleInputOutput.UserInputs;
 import consoleInputOutput.UserOutput;
 
 public class Order {
-	public static int orderId = 0;
-	public int currentOrderId;
+	public int orderId;
 	public String dishName;
 	public int dishCount;
-	public HashMap <String , Integer> orderList ;
+	public static ArrayList <Order> orderList = new ArrayList <>();;
 	
-	Order (){
-		Order.orderId = orderId ++;
-		orderList = new HashMap<String, Integer>();		
+	Order (int orderId,String dishName, int dishCount){
+		this.orderId = orderId;
+		this.dishName = dishName;
+		this.dishCount = dishCount;
+		orderList.add(this); 
 	}
-
-	
-	
 	
 }

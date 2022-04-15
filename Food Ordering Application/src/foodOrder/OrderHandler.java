@@ -2,88 +2,168 @@ package foodOrder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import consoleInputOutput.UserInputs;
 import consoleInputOutput.UserOutput;
 
 public class OrderHandler {
-	public static HashMap <String , Integer> orderList;
-	public void addDishToOrder(int orderId,String dishName, int count) { 
-	}
-	public void createOrder(UserAccount currentUser, int hotelId) {
-		String dishName;
-		int dishCount;
-		orderList = new HashMap();
+	public static int orderId = 0;
+	public static ArrayList <HotelMenu> menuList ;
+	public static ArrayList <Order> order = new ArrayList<Order>();
+
+	public void createOrder(UserAccount currentUser, Hotel hotel) {
+		orderId = orderId + 1;
 		MenuHandler menuHandler = new MenuHandler ();
-		menuHandler.showHotelMenu(hotelId);
-		ArrayList <HotelMenu> menuList = menuHandler.getCurrentHotelMenu(hotelId);
+		menuHandler.showHotelMenu(hotel.hotelId);
+		menuList = menuHandler.getCurrentHotelMenu(hotel.hotelId);
+		boolean userActionExitFlag = false;
+		
 		do {
-			UserOutput.consoleStringPrinter("Choose the food you want to order :");
-			do {
-				dishName = null;
-				UserOutput.consoleStringPrinter("Enter the dish name :");
-				dishName = UserInputs.getStringUserInput();
-				for(HotelMenu menu : menuList) {
-					if(menu.dishName.contains(dishName)) {
-						UserOutput.consoleStringPrinter("Enter amount of "+ dishName+" to order");
-						dishCount = UserInputs.getIntUserInput();
-						orderList.put(dishName, dishCount);
-					}
-				}
-				if(dishName == null) {
-					UserOutput.consoleStringPrinter("Please enter correct dish name!");	
-				}
-			}while(dishName == null);
-			
-			UserOutput.consoleStringPrinter("Dish added successfully to the cart. Please enter your option :"
-											+ "\n1 - Add More Dish"
-											+ "\n2 - View Order Summary"
-											+ "\n3 - Remove Added Dish"
-											+ "\n4 - Cancel Order");
-			int orderOption = UserInputs.getIntUserInput();
-			switch (orderOption) {
+		UserOutput.consoleStringPrinter("Please enter your option :"
+				+ "\n1 - Add Dish To Order"
+				+ "\n2 - View Order Summary"
+				+ "\n3 - Remove Added Dish"
+				+ "\n4 - Place Order"
+				+ "\n5 - Cancel Order"
+				+ "\n6 - Back to main menu");
+		int orderOption = UserInputs.getIntUserInput();
+		switch (orderOption) {
 			case 1:
-				continue;
+				addDish();
+				
+				break;
 			case 2 : 
-				viewOrderSummary();
+				viewOrderSummary(currentUser, hotel);
 				break;
 			case 3:
 				removeDishFromOrder();
-				continue;
-			case 4 :
-				//false;
 				break;
-			}
-			
-			
-		}while(true);
-		
-		
-		
-	}
-	private void removeDishFromOrder() {
-		UserOutput.consoleStringPrinter("Enter the dish , you need to remove :");
-		String dishNameToRemove = UserInputs.getStringUserInput();
-		if(orderList.containsKey(dishNameToRemove)) {
-			int countOfDishPlacedInOrderList = orderList.get(dishNameToRemove);
-			if ( countOfDishPlacedInOrderList > 1) {
-				UserOutput.consoleStringPrinter("Enter the amount to remove :");
-				int dishCountToRemove = UserInputs.getIntUserInput();
-				if (dishCountToRemove >= countOfDishPlacedInOrderList ) {
-					UserOutput.consoleStringPrinter("Entered count of dish is greater than or equal to the actually added count, Removing dish completely from the cart");
-					orderList.remove(dishNameToRemove);
+			case 4 :
+				if (order.isEmpty()) {
+					UserOutput.consoleStringPrinter("Couldn't place order!. Cart is empty!");
 				}
 				else {
-					orderList.put(dishNameToRemove,countOfDishPlacedInOrderList-dishCountToRemove );
+					UserOutput.consoleStringPrinter("Your Order has been placed");
+					viewOrderSummary(currentUser, hotel);
+					userActionExitFlag = true;
 				}
+				break;
+			case 5 :
+				if (order.isEmpty()) {
+					UserOutput.consoleStringPrinter("No such order exist!. Cart is empty!");
+				}
+				else {
+					UserOutput.consoleStringPrinter("Your Order has been cancelled");
+					order.clear();
+					userActionExitFlag = true;
+				}
+				break;
+			case 6:
+				userActionExitFlag = true;
+				break;
+			}
+		}while(!userActionExitFlag);	
+	}
+	
+	
+	public void addDish() {
+		String dishName;
+		int dishCount = 0;
+			UserOutput.consoleStringPrinter("Choose the food you want to order :");
+			do {
+				
+				dishName = null;
+				UserOutput.consoleStringPrinter("Enter the dish name :");
+				dishName = UserInputs.getStringUserInput();
+				int existingDishCountInCurrentOrder = getDishCountInCurrentOrder(dishName);
+				for(HotelMenu menu : menuList) {
+					if(menu.dishName.equalsIgnoreCase(dishName)) {
+						UserOutput.consoleStringPrinter("Enter amount of "+ dishName+" to order");
+						dishCount = UserInputs.getIntUserInput();
+							int newDishCount = existingDishCountInCurrentOrder + dishCount;
+							Order newOrder = new Order(orderId,dishName, newDishCount);
+							order.add(newOrder);
+							UserOutput.consoleStringPrinter("Dish Added Successfully");
+					}
+				}
+				if(dishCount == 0) {
+					UserOutput.consoleStringPrinter("Please enter correct dish name!");	
+				}
+			}while(dishCount == 0);
+	}
+	
+	private void removeDishFromOrder() {
+		if (order.isEmpty()) {
+			UserOutput.consoleStringPrinter("No dish added to the Cart! Cart is empty");
+		}
+		else {
+			String dishNameToRemove ;
+			int dishCountToRemove = 0;
+			do {
+				UserOutput.consoleStringPrinter("Enter the dish , you need to remove :");
+				dishNameToRemove = UserInputs.getStringUserInput();
+					for (Order currentOrder : order) {
+						if (currentOrder.dishName.equalsIgnoreCase(dishNameToRemove)) {
+							UserOutput.consoleStringPrinter("Enter the amount to remove :");
+							dishCountToRemove = UserInputs.getIntUserInput();
+							order.remove(currentOrder);
+							int newDishCount = currentOrder.dishCount - dishCountToRemove;
+							if (newDishCount > 0) {
+								Order newOrder = new Order (orderId,currentOrder.dishName, newDishCount);
+								order.add(newOrder);
+							}
+							UserOutput.consoleStringPrinter("Dish Removed from cart");
+							break;
+						}
+					}
+				
+			}while(dishCountToRemove == 0);	
+		}
+	}
+
+	private void viewOrderSummary(UserAccount currentUser, Hotel hotel) {
+		if (order.isEmpty()) {
+			UserOutput.consoleStringPrinter("No dish added to the Cart! Cart is empty");
+		}
+		else {
+			double grossTotal = 0;
+			UserOutput.consoleStringPrinter("Order No: " + orderId
+											+"\nCustomer Name : " +currentUser.getName()
+											+ "\tHotel Name: "+hotel.hotelName
+											+ "\nDishName \tUnitPrice \tQuantity \tPrice");
+			
+			for(Order currentOrder : order) {
+				double currentDishPrice = getDishPrice(currentOrder.dishName);
+				double currentDishTotalPrice = currentDishPrice * currentOrder.dishCount;
+				grossTotal = grossTotal + currentDishTotalPrice;
+				UserOutput.consoleStringPrinter(currentOrder.dishName +" \t\t"+currentDishPrice+ " \t\t"+currentOrder.dishCount +" \t\t"+currentDishTotalPrice);
+			}	
+			UserOutput.consoleStringPrinter("\t \t \t \t \t TOTAl :" + grossTotal);
+		}
+	}
+	
+	public double getDishPrice(String dishName) {
+		for(HotelMenu menuDetails : menuList) {
+			if(menuDetails.dishName.equalsIgnoreCase(dishName)){
+				return menuDetails.dishPrice; 
 			}
 		}
-		
-	}
-	private void viewOrderSummary() {
-		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 	
-	
+	public int getDishCountInCurrentOrder (String dishName) {
+		int dishCountInCurrentOrder = 0;
+		for (Order o : order) {
+			if (o.dishName.equalsIgnoreCase(dishName)) {
+				dishCountInCurrentOrder =  o.dishCount;
+				order.remove(o);
+			}
+		}
+		return dishCountInCurrentOrder;
+	}
+		
 }
+	
+	
+
