@@ -51,6 +51,7 @@ public class Main {
 				
 			}while (staySignedInFlag == true);
 			UserOutput.consoleStringPrinter("Logged Out Successfully");
+			login = null;
 			System.gc();
 		}
 		
