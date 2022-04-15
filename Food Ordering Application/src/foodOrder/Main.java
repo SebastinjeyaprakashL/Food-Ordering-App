@@ -32,27 +32,35 @@ public class Main {
 		UserAccount currentUser = login.loginMenu();
 		
 		if (currentUser != null) {
-			do {
-				UserOutput.consoleStringPrinter("Enter your choice : "
-						+ "\n1 - New Order"
-						+ "\n2 - Logout");
-				int staySignedInOption = UserInputs.getIntUserInput();
-				if (staySignedInOption == 1) {
-					Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
-					if (selectedHotel != null) {
-						OrderHandler orderHandler = new OrderHandler();
-						orderHandler.createOrder(currentUser,selectedHotel);
-						continue;
+			try {
+				do {
+					UserOutput.consoleStringPrinter("Enter your choice : "
+							+ "\n1 - New Order"
+							+ "\n2 - Logout");
+					int staySignedInOption = UserInputs.getIntUserInput();
+					if (staySignedInOption == 1) {
+						Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
+						if (selectedHotel != null) {
+							OrderHandler orderHandler = new OrderHandler();
+							orderHandler.createOrder(currentUser,selectedHotel);
+							continue;
+						}
 					}
-				}
-				else {
-					break;
-				}
-				
-			}while (staySignedInFlag == true);
-			UserOutput.consoleStringPrinter("Logged Out Successfully");
-			login = null;
-			System.gc();
+					else {
+						break;
+					}
+					
+				}while (staySignedInFlag == true);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally{
+				UserOutput.consoleStringPrinter("Logged Out Successfully");
+				login = null;
+				System.gc();
+			}
+			
 		}
 		
 		

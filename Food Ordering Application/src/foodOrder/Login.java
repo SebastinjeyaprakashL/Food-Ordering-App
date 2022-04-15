@@ -11,7 +11,8 @@ public class Login {
 	public UserAccount currentUser;
 	public ArrayList <UserAccount> userAccounts ;
 	public UserAccount loginMenu() {
-		do {
+		try {
+			do {
 				UserOutput.consoleStringPrinter("Enter your email");
 				username = UserInputs.getStringUserInput();
 				UserOutput.consoleStringPrinter("Enter your password :");
@@ -20,16 +21,26 @@ public class Login {
 				if (currentUser == null) {
 					UserOutput.consoleStringPrinter("Incorrect Username / Password ! Please try again");
 				}
-		}while (currentUser == null);
+			}while (currentUser == null);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return currentUser;
+		
 	}
 	
 	public UserAccount verifyUser(String username, String password) {
-		AccountController accountHandler = new UserAccount();
-		for(UserAccount account : accountHandler.getUserAccounts()) {
-			if(account.getEmail().equalsIgnoreCase(username) && account.getPassword().equalsIgnoreCase(password)) {
-				return account;
+		try {
+			AccountController accountHandler = new UserAccount();
+			for(UserAccount account : accountHandler.getUserAccounts()) {
+				if(account.getEmail().equalsIgnoreCase(username) && account.getPassword().equalsIgnoreCase(password)) {
+					return account;
+				}
 			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

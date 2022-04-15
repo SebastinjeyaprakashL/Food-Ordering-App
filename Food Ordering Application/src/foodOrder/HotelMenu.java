@@ -9,10 +9,15 @@ public class HotelMenu {
 	public static ArrayList <HotelMenu> menuList = new ArrayList <HotelMenu>();;
 
 	public HotelMenu(int hotelId,String name, double price) {
-		this.hotelId = hotelId;
-		this.dishName = name;
-		this.dishPrice = price;
-		menuList.add(this);
+		try {
+			this.hotelId = hotelId;
+			this.dishName = name;
+			this.dishPrice = price;
+			menuList.add(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

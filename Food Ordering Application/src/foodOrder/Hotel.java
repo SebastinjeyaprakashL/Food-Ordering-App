@@ -8,12 +8,13 @@ public class Hotel {
 	public static ArrayList <Hotel> hotels = new ArrayList <Hotel>();
 	
 	public Hotel(int id, String hotelName) {
-		this.hotelId = id;
-		this.hotelName = hotelName;
-		hotels.add(this);
-		
+		try {
+			this.hotelId = id;
+			this.hotelName = hotelName;
+			hotels.add(this);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}	
 	}
-	
-	
-
 }
