@@ -10,7 +10,8 @@ public class Hotel {
 	public Hotel(int id, String hotelName) {
 		this.hotelId = id;
 		this.hotelName = hotelName;
-		hotels.add(this);	
+		hotels.add(this);
+		
 	}
 	
 	
