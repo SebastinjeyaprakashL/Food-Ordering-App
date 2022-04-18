@@ -6,7 +6,7 @@ import consoleInputOutput.UserOutput;
 public class Main {
 	
 	public static void main(String args []) {
-		DataBase loadDb = new DataBase();
+		LoadData loadDb = new LoadData();
 		Login login = new Login();
 		UserAccount currentUser = login.loginMenu();
 		HotelHandler hotelHandler = new HotelHandler();

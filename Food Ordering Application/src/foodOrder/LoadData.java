@@ -1,7 +1,7 @@
 package foodOrder;
 
-public class DataBase {
-	DataBase (){
+public class LoadData {
+	LoadData (){
 		try {
 			new UserAccount("User1","user1@testmail.com",989898989, "testUser1");
 			new UserAccount("User2","User2@testmail.com",989898000, "testUser2");
