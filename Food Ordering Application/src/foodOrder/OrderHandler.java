@@ -44,15 +44,17 @@ public class OrderHandler {
 					else {
 						UserOutput.consoleStringPrinter("Your Order has been placed");
 						viewOrderSummary(currentUser, hotel);
+						order.clear();
 						userActionExitFlag = true;
 					}
 					break;
 				case 5 :
 					if (order.isEmpty()) {
-						UserOutput.consoleStringPrinter("No such order exist!. Cart is empty!");
+						UserOutput.consoleStringPrinter("No order exist!. Cart is empty!");
 					}
 					else {
 						UserOutput.consoleStringPrinter("Your Order has been cancelled");
+						orderId = orderId --;
 						order.clear();
 						userActionExitFlag = true;
 					}

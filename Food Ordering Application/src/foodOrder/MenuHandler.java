@@ -6,14 +6,12 @@ import consoleInputOutput.UserOutput;
 
 public class MenuHandler {
 	public int hotelId ;
-	public static ArrayList <HotelMenu> hotelMenu = new ArrayList<HotelMenu>();
 	public ArrayList <HotelMenu> currentHotelmenuList;
 	
 	
 	public void addMenu(int hotelId,String dishName, double dishPrice) {
 		try {
 			HotelMenu menu = new HotelMenu(hotelId,dishName,dishPrice);
-			hotelMenu.add(menu);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

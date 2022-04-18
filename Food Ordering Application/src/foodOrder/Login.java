@@ -1,7 +1,5 @@
 package foodOrder;
 
-import java.util.ArrayList;
-
 import consoleInputOutput.UserInputs;
 import consoleInputOutput.UserOutput;
 
@@ -9,7 +7,6 @@ public class Login {
 	public String username;
 	public String password;
 	public UserAccount currentUser;
-	public ArrayList <UserAccount> userAccounts ;
 	public UserAccount loginMenu() {
 		try {
 			do {
