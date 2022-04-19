@@ -33,10 +33,9 @@ public class Input {
 		return null;
 	}
 	
-
 	public static double getDouble() {
 		try {
-			 
+
 			return sc.nextDouble();
 		}
 		catch (Exception e) {

@@ -20,24 +20,24 @@ public class HotelHandler {
 	public HotelData chooseHotelToOrder () {
 		try {
 			ArrayList <HotelData> hotelList = getAvailableHotel();
-			HotelData choosenHotel = null;
+			HotelData chosenHotel = null;
 			do {
 					
 					Output.printInConsole("Enter the hotel name, from where you wish to order : ");
 					for(HotelData hotel : hotelList) {
 						Output.printInConsole(hotel.hotelName);
 					}
-					String choosenHotelName = Input.getString();
+					String chosenHotelName = Input.getString();
 					for (HotelData hotel : hotelList) {
-						if(hotel.hotelName.equalsIgnoreCase(choosenHotelName)) {
-							choosenHotel = hotel;
+						if(hotel.hotelName.equalsIgnoreCase(chosenHotelName)) {
+							chosenHotel = hotel;
 						}
 					}
-					if(choosenHotel == null) {
+					if(chosenHotel == null) {
 						Output.printInConsole("Please enter correct hotel name !");
 					}
-			}while (choosenHotel == null);
-			return choosenHotel;
+			}while (chosenHotel == null);
+			return chosenHotel;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

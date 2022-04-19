@@ -6,8 +6,8 @@ public class OrderData {
 	public int orderId;
 	public String dishName;
 	public int dishCount;
-	public static ArrayList <OrderData> orderList = new ArrayList <>();;
-	
+	public static ArrayList <OrderData> orderList = new ArrayList <>();
+
 	public OrderData (int orderId,String dishName, int dishCount){
 		try {
 			this.orderId = orderId;

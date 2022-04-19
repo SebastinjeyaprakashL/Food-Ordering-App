@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class HotelData {
 	public int hotelId;
 	public String hotelName;
-	public static ArrayList <HotelData> hotels = new ArrayList <HotelData>();
+	public static ArrayList <HotelData> hotels = new ArrayList<>();
 	
 	public HotelData(int id, String hotelName) {
 		try {

@@ -36,7 +36,7 @@ public class MenuHandler {
 	
 	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId){
 		try {
-			ArrayList <HotelMenuData> menuList = new ArrayList <HotelMenuData>();
+			ArrayList <HotelMenuData> menuList = new ArrayList<>();
 			for (HotelMenuData menu : HotelMenuData.menuList) {
 				if(menu.hotelId == hotelId) {
 					menuList.add(menu);
