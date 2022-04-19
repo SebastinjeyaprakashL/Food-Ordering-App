@@ -1,13 +1,13 @@
-package foodOrder;
+package dataPackage;
 
 import java.util.ArrayList;
 
-public class Hotel {
+public class HotelData {
 	public int hotelId;
 	public String hotelName;
-	public static ArrayList <Hotel> hotels = new ArrayList <Hotel>();
+	public static ArrayList <HotelData> hotels = new ArrayList <HotelData>();
 	
-	public Hotel(int id, String hotelName) {
+	public HotelData(int id, String hotelName) {
 		try {
 			this.hotelId = id;
 			this.hotelName = hotelName;

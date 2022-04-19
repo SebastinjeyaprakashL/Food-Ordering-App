@@ -1,5 +1,8 @@
 package foodOrder;
 
+import handlerPackage.HotelHandler;
+import handlerPackage.MenuHandler;
+
 public class LoadData {
 	LoadData (){
 		try {
