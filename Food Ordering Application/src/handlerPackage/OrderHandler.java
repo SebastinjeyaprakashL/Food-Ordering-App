@@ -1,15 +1,19 @@
-package foodOrder;
+package handlerPackage;
 
 import java.util.ArrayList;
-import consoleInputOutput.UserInputs;
-import consoleInputOutput.UserOutput;
+import consoleInputOutput.Input;
+import consoleInputOutput.Output;
+import dataPackage.HotelData;
+import dataPackage.HotelMenuData;
+import dataPackage.OrderData;
+import foodOrder.UserAccount;
 
 public class OrderHandler {
 	public static int orderId = 0;
-	public static ArrayList <HotelMenu> menuList ;
-	public static ArrayList <Order> order = new ArrayList<Order>();
+	public static ArrayList <HotelMenuData> menuList ;
+	public static ArrayList <OrderData> order = new ArrayList<OrderData>();
 
-	public void createOrder(UserAccount currentUser, Hotel hotel) {
+	public void createOrder(UserAccount currentUser, HotelData hotel) {
 		try {
 			orderId = orderId + 1;
 			MenuHandler menuHandler = new MenuHandler ();
@@ -18,14 +22,14 @@ public class OrderHandler {
 			boolean userActionExitFlag = false;
 			
 			do {
-			UserOutput.consoleStringPrinter("Please enter your option :"
+			Output.printInConsole("Please enter your option :"
 					+ "\n1 - Add Dish To Order"
 					+ "\n2 - View Order Summary"
 					+ "\n3 - Remove Added Dish"
 					+ "\n4 - Place Order"
 					+ "\n5 - Cancel Order"
 					+ "\n6 - Back to main menu");
-			int orderOption = UserInputs.getIntUserInput();
+			int orderOption = Input.getInt();
 			switch (orderOption) {
 				case 1:
 					addDish();
@@ -39,10 +43,10 @@ public class OrderHandler {
 					break;
 				case 4 :
 					if (order.isEmpty()) {
-						UserOutput.consoleStringPrinter("Couldn't place order!. Cart is empty!");
+						Output.printInConsole("Couldn't place order!. Cart is empty!");
 					}
 					else {
-						UserOutput.consoleStringPrinter("Your Order has been placed");
+						Output.printInConsole("Your Order has been placed");
 						viewOrderSummary(currentUser, hotel);
 						order.clear();
 						userActionExitFlag = true;
@@ -50,10 +54,10 @@ public class OrderHandler {
 					break;
 				case 5 :
 					if (order.isEmpty()) {
-						UserOutput.consoleStringPrinter("No order exist!. Cart is empty!");
+						Output.printInConsole("No order exist!. Cart is empty!");
 					}
 					else {
-						UserOutput.consoleStringPrinter("Your Order has been cancelled");
+						Output.printInConsole("Your Order has been cancelled");
 						orderId = orderId --;
 						order.clear();
 						userActionExitFlag = true;
@@ -79,21 +83,21 @@ public class OrderHandler {
 				do {
 					dishName = null;
 					dishCount = 0;
-					UserOutput.consoleStringPrinter("Enter the dish name :");
-					dishName = UserInputs.getStringUserInput();
+					Output.printInConsole("Enter the dish name :");
+					dishName = Input.getString();
 					int existingDishCountInCurrentOrder = getDishCountInCurrentOrder(dishName);
-					for(HotelMenu menu : menuList) {
+					for(HotelMenuData menu : menuList) {
 						if(menu.dishName.equalsIgnoreCase(dishName)) {
-							UserOutput.consoleStringPrinter("Enter amount of "+ dishName+" to order");
-							dishCount = UserInputs.getIntUserInput();
+							Output.printInConsole("Enter amount of "+ dishName+" to order");
+							dishCount = Input.getInt();
 								int newDishCount = existingDishCountInCurrentOrder + dishCount;
-								Order newOrder = new Order(orderId,dishName, newDishCount);
+								OrderData newOrder = new OrderData(orderId,dishName, newDishCount);
 								order.add(newOrder);
-								UserOutput.consoleStringPrinter("Dish Added Successfully");
+								Output.printInConsole("Dish Added Successfully");
 						}
 					}
 					if(dishCount == 0) {
-						UserOutput.consoleStringPrinter("Please enter correct dish name!");	
+						Output.printInConsole("Please enter correct dish name!");	
 					}
 				}while(dishCount == 0);
 		}
@@ -106,25 +110,25 @@ public class OrderHandler {
 	private void removeDishFromOrder() {
 	try {
 		if (order.isEmpty()) {
-			UserOutput.consoleStringPrinter("No dish added to the Cart! Cart is empty");
+			Output.printInConsole("No dish added to the Cart! Cart is empty");
 		}
 		else {
 			String dishNameToRemove ;
 			int dishCountToRemove = 0;
 			do {
-				UserOutput.consoleStringPrinter("Enter the dish , you need to remove :");
-				dishNameToRemove = UserInputs.getStringUserInput();
-					for (Order currentOrder : order) {
+				Output.printInConsole("Enter the dish , you need to remove :");
+				dishNameToRemove = Input.getString();
+					for (OrderData currentOrder : order) {
 						if (currentOrder.dishName.equalsIgnoreCase(dishNameToRemove)) {
-							UserOutput.consoleStringPrinter("Enter the amount to remove :");
-							dishCountToRemove = UserInputs.getIntUserInput();
+							Output.printInConsole("Enter the amount to remove :");
+							dishCountToRemove = Input.getInt();
 							order.remove(currentOrder);
 							int newDishCount = currentOrder.dishCount - dishCountToRemove;
 							if (newDishCount > 0) {
-								Order newOrder = new Order (orderId,currentOrder.dishName, newDishCount);
+								OrderData newOrder = new OrderData (orderId,currentOrder.dishName, newDishCount);
 								order.add(newOrder);
 							}
-							UserOutput.consoleStringPrinter("Dish Removed from cart");
+							Output.printInConsole("Dish Removed from cart");
 							break;
 						}
 					}
@@ -138,25 +142,25 @@ public class OrderHandler {
 		
 	}
 
-	private void viewOrderSummary(UserAccount currentUser, Hotel hotel) {
+	private void viewOrderSummary(UserAccount currentUser, HotelData hotel) {
 		try {
 			if (order.isEmpty()) {
-				UserOutput.consoleStringPrinter("No dish added to the Cart! Cart is empty");
+				Output.printInConsole("No dish added to the Cart! Cart is empty");
 			}
 			else {
 				double grossTotal = 0;
-				UserOutput.consoleStringPrinter("Order No: " + orderId
+				Output.printInConsole("Order No: " + orderId
 												+"\nCustomer Name : " +currentUser.getName()
 												+ "\tHotel Name: "+hotel.hotelName
 												+ "\nDishName \t\tUnitPrice \tQuantity \tPrice");
 				
-				for(Order currentOrder : order) {
+				for(OrderData currentOrder : order) {
 					double currentDishPrice = getDishPrice(currentOrder.dishName);
 					double currentDishTotalPrice = currentDishPrice * currentOrder.dishCount;
 					grossTotal = grossTotal + currentDishTotalPrice;
-					UserOutput.consoleStringPrinter(currentOrder.dishName +" \t\t"+currentDishPrice+ " \t\t"+currentOrder.dishCount +" \t\t"+currentDishTotalPrice);
+					Output.printInConsole(currentOrder.dishName +" \t\t"+currentDishPrice+ " \t\t"+currentOrder.dishCount +" \t\t"+currentDishTotalPrice);
 				}	
-				UserOutput.consoleStringPrinter("\t \t \t \t \t \tTOTAl :" + grossTotal);
+				Output.printInConsole("\t \t \t \t \t \tTOTAl :" + grossTotal);
 			}
 		}
 		catch (Exception e) {
@@ -167,7 +171,7 @@ public class OrderHandler {
 	
 	public double getDishPrice(String dishName) {
 		try {
-			for(HotelMenu menuDetails : menuList) {
+			for(HotelMenuData menuDetails : menuList) {
 				if(menuDetails.dishName.equalsIgnoreCase(dishName)){
 					return menuDetails.dishPrice; 
 				}
@@ -182,7 +186,7 @@ public class OrderHandler {
 	public int getDishCountInCurrentOrder (String dishName) {
 		try {
 			int dishCountInCurrentOrder = 0;
-			for (Order o : order) {
+			for (OrderData o : order) {
 				if (o.dishName.equalsIgnoreCase(dishName)) {
 					dishCountInCurrentOrder =  o.dishCount;
 					order.remove(o);

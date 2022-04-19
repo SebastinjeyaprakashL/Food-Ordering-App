@@ -1,8 +1,10 @@
-package foodOrder;
+package interfacePackage;
 
 import java.util.ArrayList;
 
-public interface AccountController {
+import foodOrder.UserAccount;
+
+public interface AccountControllerInterface {
 	public String getName();
 	public String getEmail();
 	public String getPassword();

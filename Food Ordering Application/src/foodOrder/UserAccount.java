@@ -2,7 +2,9 @@ package foodOrder;
 
 import java.util.ArrayList;
 
-public class UserAccount implements AccountController {
+import interfacePackage.AccountControllerInterface;
+
+public class UserAccount implements AccountControllerInterface {
 	private int userId;
 	private String name;
 	private String email;

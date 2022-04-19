@@ -1,7 +1,10 @@
 package foodOrder;
 
-import consoleInputOutput.UserInputs;
-import consoleInputOutput.UserOutput;
+import consoleInputOutput.Input;
+import consoleInputOutput.Output;
+import dataPackage.HotelData;
+import handlerPackage.HotelHandler;
+import handlerPackage.OrderHandler;
 
 public class Main {
 	
@@ -14,12 +17,12 @@ public class Main {
 		if (currentUser != null) {
 			try {
 				do {
-					UserOutput.consoleStringPrinter("Enter your choice : "
+					Output.printInConsole("Enter your choice : "
 							+ "\n1 - New Order"
 							+ "\n0 - Logout");
-					int staySignedInOption = UserInputs.getIntUserInput();
+					int staySignedInOption = Input.getInt();
 					if (staySignedInOption == 1) {
-						Hotel selectedHotel = hotelHandler.chooseHotelToOrder();
+						HotelData selectedHotel = hotelHandler.chooseHotelToOrder();
 						if (selectedHotel != null) {
 							OrderHandler orderHandler = new OrderHandler();
 							orderHandler.createOrder(currentUser,selectedHotel);
@@ -31,7 +34,7 @@ public class Main {
 					}
 					else {
 						
-						UserOutput.consoleStringPrinter("Invaid choice");
+						Output.printInConsole("Invaid choice");
 						continue;
 					}
 				}while (staySignedInFlag == true);
@@ -40,7 +43,7 @@ public class Main {
 				e.printStackTrace();
 			}
 			finally{
-				UserOutput.consoleStringPrinter("Logged Out Successfully");
+				Output.printInConsole("Logged Out Successfully");
 				loadDb = null;
 				login = null;
 				System.gc();

@@ -1,7 +1,8 @@
 package foodOrder;
 
-import consoleInputOutput.UserInputs;
-import consoleInputOutput.UserOutput;
+import consoleInputOutput.Input;
+import consoleInputOutput.Output;
+import interfacePackage.AccountControllerInterface;
 
 public class Login {
 	public String username;
@@ -10,14 +11,14 @@ public class Login {
 	public UserAccount loginMenu() {
 		try {
 			do {
-				UserOutput.consoleStringPrinter("Welcome To Food Ordering Console App");
-				UserOutput.consoleStringPrinter("\nEnter your email to login :");
-				username = UserInputs.getStringUserInput();
-				UserOutput.consoleStringPrinter("\nEnter your password :");
-				password = UserInputs.getStringUserInput();
+				Output.printInConsole("Welcome To Food Ordering Console App");
+				Output.printInConsole("\nEnter your email to login :");
+				username = Input.getString();
+				Output.printInConsole("\nEnter your password :");
+				password = Input.getString();
 				currentUser = verifyUser(username, password);
 				if (currentUser == null) {
-					UserOutput.consoleStringPrinter("Incorrect Username / Password ! Please try again");
+					Output.printInConsole("Incorrect Username / Password ! Please try again");
 				}
 			}while (currentUser == null);
 		}
@@ -30,7 +31,7 @@ public class Login {
 	
 	public UserAccount verifyUser(String username, String password) {
 		try {
-			AccountController accountHandler = new UserAccount();
+			AccountControllerInterface accountHandler = new UserAccount();
 			for(UserAccount account : accountHandler.getUserAccounts()) {
 				if(account.getEmail().equalsIgnoreCase(username) && account.getPassword().equalsIgnoreCase(password)) {
 					return account;
