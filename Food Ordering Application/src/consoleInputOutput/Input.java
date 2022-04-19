@@ -2,6 +2,7 @@ package consoleInputOutput;
 
 import java.util.Scanner;
 
+
 public class Input {
 	public static Scanner sc = new Scanner (System.in);
 	public static int getInt () {
@@ -26,7 +27,7 @@ public class Input {
 			return sc.nextLine().toUpperCase();
 		}
 		catch (Exception e) {
-			System.out.println("Invalid input for the current action ");;
+			System.out.println("Invalid input for the current action ");
 			getString();
 		}
 		return null;
