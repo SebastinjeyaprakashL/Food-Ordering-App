@@ -2,46 +2,36 @@ package foodOrder;
 
 import consoleInputOutput.Input;
 import consoleInputOutput.Output;
+import dataPackage.UserAccountData;
+import handlerPackage.UserAccountHandler;
 import interfacePackage.AccountControllerInterface;
 
 public class Login {
 	public String username;
 	public String password;
-	public UserAccount currentUser;
-	public UserAccount loginMenu() {
+	public UserAccountData currentUser;
+	public UserAccountData loginMenu() {
 		try {
 			do {
-				Output.printInConsole("Welcome To Food Ordering Console App");
+				
 				Output.printInConsole("\nEnter your email to login :");
 				username = Input.getString();
 				Output.printInConsole("\nEnter your password :");
 				password = Input.getString();
-				currentUser = verifyUser(username, password);
+				AccountControllerInterface accountHandler = new UserAccountHandler();
+				currentUser = accountHandler.verifyUser(username, password);
 				if (currentUser == null) {
 					Output.printInConsole("Incorrect Username / Password ! Please try again");
 				}
 			}while (currentUser == null);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole("Unable to login ! Please try again later "+ e);
 		}
 		return currentUser;
 		
 	}
 	
-	public UserAccount verifyUser(String username, String password) {
-		try {
-			AccountControllerInterface accountHandler = new UserAccount();
-			for(UserAccount account : accountHandler.getUserAccounts()) {
-				if(account.getEmail().equalsIgnoreCase(username) && account.getPassword().equalsIgnoreCase(password)) {
-					return account;
-				}
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 	
 }

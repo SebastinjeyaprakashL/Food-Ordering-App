@@ -4,24 +4,32 @@ import java.util.ArrayList;
 
 import consoleInputOutput.Output;
 import dataPackage.HotelMenuData;
+import databasePackage.Database;
+import interfacePackage.MenuControllerInterface;
 
-public class MenuHandler {
-	public int hotelId ;
-	public ArrayList <HotelMenuData> currentHotelmenuList;
+public class MenuHandler implements MenuControllerInterface {
+	public Database db = Database.getInstance();
 	
-	
+	@Override
 	public void addMenu(int hotelId,String dishName, double dishPrice) {
 		try {
-			HotelMenuData menu = new HotelMenuData(hotelId,dishName,dishPrice);
+			HotelMenuData menu = new HotelMenuData();
+			menu.hotelId = hotelId;
+			menu.dishName = dishName;
+			menu.dishPrice = dishPrice;
+			
+			db.addMenuList(menu);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole("Something went wrong. Unable to add menu! " + e);
 		}
 		
 	}
 	
+	@Override
 	public void showHotelMenu(int hotelId) {
 		try {
+			ArrayList <HotelMenuData> currentHotelmenuList;
 			currentHotelmenuList = getCurrentHotelMenu(hotelId);
 			Output.printInConsole("\t\t-----------Menu-----------");
 			for(HotelMenuData menu : currentHotelmenuList) {
@@ -30,14 +38,15 @@ public class MenuHandler {
 			Output.printInConsole("\t\t-----------END-----------");
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole("Problem in fetching menu list for the selected hotel. Please choose different hotel. " + e);
 		}	
 	}
 	
+	@Override
 	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId){
 		try {
 			ArrayList <HotelMenuData> menuList = new ArrayList<>();
-			for (HotelMenuData menu : HotelMenuData.menuList) {
+			for (HotelMenuData menu : db.getMenuList()) {
 				if(menu.hotelId == hotelId) {
 					menuList.add(menu);
 				}

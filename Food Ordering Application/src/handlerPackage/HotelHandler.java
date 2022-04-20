@@ -1,25 +1,38 @@
 package handlerPackage;
 
 import java.util.ArrayList;
-
 import consoleInputOutput.Input;
 import consoleInputOutput.Output;
 import dataPackage.HotelData;
+import databasePackage.Database;
+import interfacePackage.HotelControllerInterface;
 
-public class HotelHandler {
+public class HotelHandler implements HotelControllerInterface {
+	public Database db = Database.getInstance();
+	
+	@Override
 	public void addHotel (int hotelId, String hotelName) {
 		try {
-			new HotelData(hotelId, hotelName);
+			HotelData newHotel = new HotelData();
+			newHotel.hotelId = hotelId;
+			newHotel.hotelName = hotelName;
+			db.addHotel(newHotel);
 		}
 		catch (Exception e) {
-		e.printStackTrace();	
+			Output.printInConsole("Something went wrong! Unable to add new Hotel. Please contact admin \n" + e );
 		}
 		
 	}
 	
+	@Override
+	public ArrayList<HotelData> getHotels() {
+		return db.getHotels();
+	}
+	
+	@Override
 	public HotelData chooseHotelToOrder () {
 		try {
-			ArrayList <HotelData> hotelList = getAvailableHotel();
+			ArrayList <HotelData> hotelList = db.getHotels();
 			HotelData chosenHotel = null;
 			do {
 					
@@ -40,13 +53,12 @@ public class HotelHandler {
 			return chosenHotel;
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole("Problem in fetching available hotels ! Please try again later \n" + e);
 		}
 		return null;
 		
 	}
+
 	
-	public ArrayList<HotelData> getAvailableHotel() {
-		return HotelData.hotels;
-	}
+	
 }

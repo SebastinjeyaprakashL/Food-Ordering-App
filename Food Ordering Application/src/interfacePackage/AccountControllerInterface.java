@@ -1,12 +1,10 @@
 package interfacePackage;
 
-import java.util.ArrayList;
-
-import foodOrder.UserAccount;
+import dataPackage.UserAccountData;
 
 public interface AccountControllerInterface {
-	public String getName();
-	public String getEmail();
-	public String getPassword();
-	public ArrayList<UserAccount> getUserAccounts();
+	
+	public void addUser (String name, String email, long mobileNumber, String password);
+	public UserAccountData verifyUser(String username, String password);
+	
 }

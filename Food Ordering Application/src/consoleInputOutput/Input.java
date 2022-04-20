@@ -1,7 +1,7 @@
 package consoleInputOutput;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
 
 public class Input {
 	public static Scanner sc = new Scanner (System.in);
@@ -9,9 +9,12 @@ public class Input {
 		try {
 			return sc.nextInt();
 		}
-		catch (Exception e) {
-			System.out.println("Invalid input for the current action ");
+		catch (InputMismatchException | NullPointerException e) {
+			System.out.println("Invalid input for the current action, Please provide input in numeber format ");
 			getInt();
+		}
+		catch (Exception e) {
+			System.out.println("Something went wrong !" + e );
 		}
 		finally {
 			sc.nextLine();
@@ -26,9 +29,12 @@ public class Input {
 		try {
 			return sc.nextLine().toUpperCase();
 		}
-		catch (Exception e) {
-			System.out.println("Invalid input for the current action ");
+		catch (InputMismatchException | NullPointerException e) {
+			System.out.println("Invalid input for the current action, Please provide valid input ");
 			getString();
+		}
+		catch (Exception e) {
+			System.out.println("Something went wrong !" + e );
 		}
 		return null;
 	}
@@ -38,13 +44,17 @@ public class Input {
 
 			return sc.nextDouble();
 		}
-		catch (Exception e) {
-			System.out.println("Invalid input. Please give number values.");
+		catch (InputMismatchException | NullPointerException e) {
+			System.out.println("Invalid input for the current action, Please enter the valid input in number format ");
 			getDouble();
+		}
+		catch (Exception e) {
+			System.out.println("Something went wrong !" + e );
 		}
 		finally {
 			sc.nextLine();
 		}
 		return 0;
 	}
+
 }

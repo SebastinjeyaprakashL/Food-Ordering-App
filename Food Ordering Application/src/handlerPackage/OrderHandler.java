@@ -6,17 +6,23 @@ import consoleInputOutput.Output;
 import dataPackage.HotelData;
 import dataPackage.HotelMenuData;
 import dataPackage.OrderData;
-import foodOrder.UserAccount;
+import dataPackage.UserAccountData;
+import databasePackage.Database;
+import interfacePackage.MenuControllerInterface;
+import interfacePackage.OrderControllerInterface;
 
-public class OrderHandler {
+public class OrderHandler implements OrderControllerInterface {
 	public static int orderId = 0;
 	public static ArrayList <HotelMenuData> menuList ;
 	public static ArrayList <OrderData> order = new ArrayList<OrderData>();
-
-	public void createOrder(UserAccount currentUser, HotelData hotel) {
+	Database db = Database.getInstance();
+	
+	@Override
+	public void createOrder(UserAccountData currentUser, HotelData hotel) {
 		try {
 			orderId = orderId + 1;
-			MenuHandler menuHandler = new MenuHandler ();
+			menuList = new ArrayList<>();
+			MenuControllerInterface menuHandler = new MenuHandler ();
 			menuHandler.showHotelMenu(hotel.hotelId);
 			menuList = menuHandler.getCurrentHotelMenu(hotel.hotelId);
 			boolean userActionExitFlag = false;
@@ -48,6 +54,7 @@ public class OrderHandler {
 					else {
 						Output.printInConsole("Your Order has been placed");
 						viewOrderSummary(currentUser, hotel);
+						db.addOrderList(order);
 						order.clear();
 						userActionExitFlag = true;
 					}
@@ -70,13 +77,12 @@ public class OrderHandler {
 			}while(!userActionExitFlag);	
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole(e+"");
 		}
 		
 	}
 	
-	
-	public void addDish() {
+	private void addDish() {
 		try {
 			String dishName;
 			int dishCount = 0;
@@ -90,8 +96,11 @@ public class OrderHandler {
 						if(menu.dishName.equalsIgnoreCase(dishName)) {
 							Output.printInConsole("Enter amount of "+ dishName+" to order");
 							dishCount = Input.getInt();
-								int newDishCount = existingDishCountInCurrentOrder + dishCount;
-								OrderData newOrder = new OrderData(orderId,dishName, newDishCount);
+								int newDishCount = existingDishCountInCurrentOrder + dishCount;								
+								OrderData newOrder = new OrderData();
+								newOrder.orderId = orderId;
+								newOrder.dishName = dishName;
+								newOrder.dishCount = newDishCount;
 								order.add(newOrder);
 								Output.printInConsole("Dish Added Successfully");
 						}
@@ -103,6 +112,7 @@ public class OrderHandler {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			Output.printInConsole ("Unable to add dish ! Please order from another hotel");
 		}
 		
 	}
@@ -125,7 +135,10 @@ public class OrderHandler {
 							order.remove(currentOrder);
 							int newDishCount = currentOrder.dishCount - dishCountToRemove;
 							if (newDishCount > 0) {
-								OrderData newOrder = new OrderData (orderId,currentOrder.dishName, newDishCount);
+								OrderData newOrder = new OrderData();
+								newOrder.orderId = orderId;
+								newOrder.dishName = currentOrder.dishName;
+								newOrder.dishCount = newDishCount;
 								order.add(newOrder);
 							}
 							Output.printInConsole("Dish Removed from cart");
@@ -135,14 +148,15 @@ public class OrderHandler {
 				
 			}while(dishCountToRemove == 0);	
 		}	
-		}
+	}
 		catch (Exception e) {
 			e.printStackTrace();
+			Output.printInConsole("Something went wrong ! Please order from another hotel");
 		}
 		
 	}
 
-	private void viewOrderSummary(UserAccount currentUser, HotelData hotel) {
+	private void viewOrderSummary(UserAccountData currentUser, HotelData hotel) {
 		try {
 			if (order.isEmpty()) {
 				Output.printInConsole("No dish added to the Cart! Cart is empty");
@@ -164,12 +178,12 @@ public class OrderHandler {
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole(e+"");
 		}
 		
 	}
 	
-	public double getDishPrice(String dishName) {
+	private double getDishPrice(String dishName) {
 		try {
 			for(HotelMenuData menuDetails : menuList) {
 				if(menuDetails.dishName.equalsIgnoreCase(dishName)){
@@ -178,12 +192,12 @@ public class OrderHandler {
 			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole(e+"");
 		}
 		return 0;	
 	}
 	
-	public int getDishCountInCurrentOrder (String dishName) {
+	private int getDishCountInCurrentOrder (String dishName) {
 		try {
 			int dishCountInCurrentOrder = 0;
 			for (OrderData o : order) {
@@ -195,7 +209,7 @@ public class OrderHandler {
 			}	
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			Output.printInConsole(e+"");
 		}
 		return 0;
 		
