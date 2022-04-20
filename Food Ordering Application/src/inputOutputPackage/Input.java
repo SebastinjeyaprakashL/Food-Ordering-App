@@ -9,7 +9,7 @@ public class Input {
 		try {
 			return sc.nextInt();
 		}
-		catch (InputMismatchException | NullPointerException e) {
+		catch (InputMismatchException e) {
 			System.out.println("Invalid input for the current action, Please provide input in number format ");
 			sc.nextLine();
 			getInt();
@@ -30,7 +30,7 @@ public class Input {
 		try {
 			return sc.nextLine().toUpperCase();
 		}
-		catch (InputMismatchException | NullPointerException e) {
+		catch (InputMismatchException e) {
 			System.out.println("Invalid input for the current action, Please provide valid input ");
 			getString();
 		}
@@ -45,7 +45,7 @@ public class Input {
 
 			return sc.nextDouble();
 		}
-		catch (InputMismatchException | NullPointerException e) {
+		catch (InputMismatchException e) {
 			System.out.println("Invalid input for the current action, Please enter the valid input in number format ");
 			sc.nextLine();
 			getDouble();
