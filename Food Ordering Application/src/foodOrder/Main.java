@@ -24,10 +24,9 @@ public class Main {
 				if (currentUser != null) {
 					boolean staySignedInFlag = true;
 					do {
-						Output.printInConsole("""
-								Enter your choice :
-								1 - New Order
-								0 - Logout""");
+						Output.printInConsole("Enter your choice :\n" +
+											  "1 - New Order\n" +
+											  "0 - Logout");
 						int userOption = Input.getInt();
 						if (userOption == 1) {
 							HotelControllerInterface hotelHandler = new HotelHandler();
