@@ -1,4 +1,4 @@
-package consoleInputOutput;
+package inputOutputPackage;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

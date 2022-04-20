@@ -1,6 +1,6 @@
 package handlerPackage;
 
-import consoleInputOutput.Output;
+import inputOutputPackage.Output;
 import dataPackage.UserAccountData;
 import databasePackage.Database;
 import interfacePackage.AccountControllerInterface;

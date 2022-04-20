@@ -1,7 +1,7 @@
 package foodOrder;
 
-import consoleInputOutput.Input;
-import consoleInputOutput.Output;
+import inputOutputPackage.Input;
+import inputOutputPackage.Output;
 import dataPackage.HotelData;
 import dataPackage.UserAccountData;
 import databasePackage.Database;

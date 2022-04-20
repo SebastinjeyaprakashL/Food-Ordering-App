@@ -2,7 +2,7 @@ package handlerPackage;
 
 import java.util.ArrayList;
 
-import consoleInputOutput.Output;
+import inputOutputPackage.Output;
 import dataPackage.HotelMenuData;
 import databasePackage.Database;
 import interfacePackage.MenuControllerInterface;

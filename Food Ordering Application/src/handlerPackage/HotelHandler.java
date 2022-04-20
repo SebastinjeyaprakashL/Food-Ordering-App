@@ -1,8 +1,8 @@
 package handlerPackage;
 
 import java.util.ArrayList;
-import consoleInputOutput.Input;
-import consoleInputOutput.Output;
+import inputOutputPackage.Input;
+import inputOutputPackage.Output;
 import dataPackage.HotelData;
 import databasePackage.Database;
 import interfacePackage.HotelControllerInterface;

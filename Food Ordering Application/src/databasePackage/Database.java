@@ -2,7 +2,7 @@ package databasePackage;
 
 import java.util.ArrayList;
 
-import consoleInputOutput.Output;
+import inputOutputPackage.Output;
 import dataPackage.HotelData;
 import dataPackage.HotelMenuData;
 import dataPackage.OrderData;

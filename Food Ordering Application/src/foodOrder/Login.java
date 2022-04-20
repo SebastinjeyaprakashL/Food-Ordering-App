@@ -1,7 +1,7 @@
 package foodOrder;
 
-import consoleInputOutput.Input;
-import consoleInputOutput.Output;
+import inputOutputPackage.Input;
+import inputOutputPackage.Output;
 import dataPackage.UserAccountData;
 import handlerPackage.UserAccountHandler;
 import interfacePackage.AccountControllerInterface;

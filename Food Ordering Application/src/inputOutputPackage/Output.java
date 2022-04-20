@@ -1,4 +1,4 @@
-package consoleInputOutput;
+package inputOutputPackage;
 
 public class Output {
 	public static void printInConsole (String printStatement) {
