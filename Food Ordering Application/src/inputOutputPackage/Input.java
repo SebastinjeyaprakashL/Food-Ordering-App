@@ -11,6 +11,7 @@ public class Input {
 		}
 		catch (InputMismatchException | NullPointerException e) {
 			System.out.println("Invalid input for the current action, Please provide input in number format ");
+			sc.nextLine();
 			getInt();
 		}
 		catch (Exception e) {
@@ -46,6 +47,7 @@ public class Input {
 		}
 		catch (InputMismatchException | NullPointerException e) {
 			System.out.println("Invalid input for the current action, Please enter the valid input in number format ");
+			sc.nextLine();
 			getDouble();
 		}
 		catch (Exception e) {
