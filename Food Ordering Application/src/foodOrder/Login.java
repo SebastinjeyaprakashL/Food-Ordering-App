@@ -7,10 +7,10 @@ import handlerPackage.UserAccountHandler;
 import interfacePackage.AccountControllerInterface;
 
 public class Login {
-	public String username;
-	public String password;
-	public UserAccountData currentUser;
 	public UserAccountData loginMenu() {
+		String username;
+		String password;
+		UserAccountData currentUser = null;
 		try {
 			do {
 				
