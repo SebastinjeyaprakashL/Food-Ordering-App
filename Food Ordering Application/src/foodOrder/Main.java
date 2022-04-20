@@ -12,7 +12,7 @@ import interfacePackage.OrderControllerInterface;
 
 public class Main {
 	
-	public static void main(String args []) {
+	public static void main(String[] args) {
 		try {
 			Database db = Database.getInstance();
 			db.loadDb();
@@ -24,9 +24,10 @@ public class Main {
 				if (currentUser != null) {
 					boolean staySignedInFlag = true;
 					do {
-						Output.printInConsole("Enter your choice :"
-												+ "\n1 - New Order"
-												+ "\n0 - Logout");
+						Output.printInConsole("""
+								Enter your choice :
+								1 - New Order
+								0 - Logout""");
 						int userOption = Input.getInt();
 						if (userOption == 1) {
 							HotelControllerInterface hotelHandler = new HotelHandler();
@@ -34,7 +35,6 @@ public class Main {
 							if (chosenHotel != null) {
 								OrderControllerInterface orderHandler = new OrderHandler();
 								orderHandler.createOrder(currentUser, chosenHotel);
-								continue;
 							}
 						}
 						else {
@@ -44,7 +44,6 @@ public class Main {
 						}
 					}while (staySignedInFlag);
 				}
-				continue;
 			}while (currentUser != null);
 		}
 		catch (Exception e) {

@@ -37,10 +37,10 @@ public class Database {
 			hotelHandler.addHotel(2,"Hotel2");
 			
 			MenuControllerInterface menuHandler = new MenuHandler();
-			menuHandler.addMenu(1,"Veg biriyani",100);
+			menuHandler.addMenu(1,"Veg Biriyani",100);
 			menuHandler.addMenu(1,"Fried Rice", 250);
 			menuHandler.addMenu(1,"Egg Biriyani", 80);
-			menuHandler.addMenu(1,"non-veg meals", 120);
+			menuHandler.addMenu(1,"Non-Veg Meals", 120);
 			
 			menuHandler.addMenu(2,"Chicken Grill", 180);
 			menuHandler.addMenu(2,"Shawarma Roll", 90);

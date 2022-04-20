@@ -10,7 +10,7 @@ public class Input {
 			return sc.nextInt();
 		}
 		catch (InputMismatchException | NullPointerException e) {
-			System.out.println("Invalid input for the current action, Please provide input in numeber format ");
+			System.out.println("Invalid input for the current action, Please provide input in number format ");
 			getInt();
 		}
 		catch (Exception e) {

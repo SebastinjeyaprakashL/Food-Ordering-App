@@ -29,10 +29,10 @@ public class MenuHandler implements MenuControllerInterface {
 	@Override
 	public void showHotelMenu(int hotelId) {
 		try {
-			ArrayList <HotelMenuData> currentHotelmenuList;
-			currentHotelmenuList = getCurrentHotelMenu(hotelId);
+			ArrayList <HotelMenuData> currentHotelMenuList;
+			currentHotelMenuList = getCurrentHotelMenu(hotelId);
 			Output.printInConsole("\t\t-----------Menu-----------");
-			for(HotelMenuData menu : currentHotelmenuList) {
+			for(HotelMenuData menu : currentHotelMenuList) {
 				Output.printInConsole("\t\t"+menu.dishName + " - " + menu.dishPrice);
 			}
 			Output.printInConsole("\t\t-----------END-----------");
