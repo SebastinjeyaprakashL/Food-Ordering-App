@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import dataPackage.HotelData;
 
 public interface HotelControllerInterface {
-	public void addHotel (int hotelId, String hotelName);
-	public ArrayList<HotelData> getHotels ();
-	public HotelData chooseHotelToOrder () ;
+	void addHotel (int hotelId, String hotelName);
+	ArrayList<HotelData> getHotels ();
+	HotelData chooseHotelToOrder () ;
 }

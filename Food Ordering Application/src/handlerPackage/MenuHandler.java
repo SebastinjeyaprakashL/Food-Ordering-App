@@ -45,8 +45,7 @@ public class MenuHandler implements MenuControllerInterface {
 	@Override
 	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId){
 		try {
-			ArrayList <HotelMenuData> menuList = db.getMenuList(hotelId);
-			return menuList;
+			return db.getMenuList(hotelId);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

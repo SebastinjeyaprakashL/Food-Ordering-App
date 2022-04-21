@@ -13,7 +13,7 @@ import interfacePackage.OrderControllerInterface;
 
 public class OrderHandler implements OrderControllerInterface {
 	public static ArrayList <HotelMenuData> menuList ;
-	public static ArrayList <OrderData> order = new ArrayList<OrderData>();
+	public static ArrayList <OrderData> order = new ArrayList<>();
 	Database db = Database.getInstance();
 	
 	@Override
@@ -81,9 +81,8 @@ public class OrderHandler implements OrderControllerInterface {
 	private void addDish() {
 		try {
 			String dishName;
-			int dishCount = 0;
+			int dishCount;
 				do {
-					dishName = null;
 					dishCount = 0;
 					Output.printInConsole("Enter the dish name :");
 					dishName = Input.getString();
@@ -190,7 +189,7 @@ public class OrderHandler implements OrderControllerInterface {
 	
 	private int getDishCountInCurrentOrder (String dishName) {
 		try {
-			int dishCountInCurrentOrder = 0;
+			int dishCountInCurrentOrder;
 			for (OrderData o : order) {
 				if (o.dishName.equalsIgnoreCase(dishName)) {
 					dishCountInCurrentOrder =  o.dishCount;

@@ -1,12 +1,14 @@
 package databasePackage;
 
+import inputOutputPackage.Output;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnect {
 
-	private static DbConnect db = new DbConnect();
+	private static final DbConnect db = new DbConnect();
 	private Connection connection = null;
 	
 	private DbConnect() {
@@ -17,11 +19,8 @@ public class DbConnect {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				connection = DriverManager.getConnection(url, user, password);
 
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			catch (SQLException e) {
-				e.printStackTrace();
+			} catch (ClassNotFoundException | SQLException e) {
+				Output.printInConsole("Unable to connect database ! " + e);
 			}
 	}
 	

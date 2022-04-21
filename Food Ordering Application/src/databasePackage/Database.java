@@ -13,11 +13,11 @@ import dataPackage.OrderData;
 import dataPackage.UserAccountData;
 
 public class Database {
-	private Connection dbConnection = DbConnect.getConnection();
+	private final Connection dbConnection = DbConnect.getConnection();
 	private PreparedStatement preparedStatement = null;
 	private Statement statement = null;
 
-	private static Database db = new Database();
+	private static final Database db = new Database();
 	
 	private Database() {}
 	
@@ -43,7 +43,7 @@ public class Database {
 			}		
 		}
 		catch (SQLException e) {
-			Output.printInConsole("Couldn't fetch user data from database ! Please conatact administrator" + e);
+			Output.printInConsole("Couldn't fetch user data from database ! Please contact administrator" + e);
 		}
 		return null;
 	}
@@ -86,7 +86,6 @@ public class Database {
 				if (row > 0) {
 					preparedStatement = null;
 					isOrderPlacedFlag = true;
-					continue;
 				}
 				else {
 					isOrderPlacedFlag = false;
@@ -99,7 +98,7 @@ public class Database {
 			}
 		}
 		catch (SQLException e) {
-			Output.printInConsole("Error occured while placing new Order! " + e);
+			Output.printInConsole("Error occurred while placing new Order! " + e);
 		}
 	}
 
@@ -134,7 +133,7 @@ public class Database {
 				Output.printInConsole("Hotel added!");
 			}
 			else {
-				Output.printInConsole("Error occured while adding new hotel! ");
+				Output.printInConsole("Error occurred while adding new hotel! ");
 			}
 		}
 		catch (SQLException e) {
@@ -195,11 +194,11 @@ public class Database {
 			statement = dbConnection.createStatement();
 			ResultSet orderId = statement.executeQuery(query);
 			if(orderId.next()) {
-				return newOrderId = orderId.getInt("newOrderNumber");
+				return orderId.getInt("newOrderNumber");
 			}
 		}
 		catch (SQLException e) {
-			Output.printInConsole("Unable to get order seqence!" + e);
+			Output.printInConsole("Unable to get order sequence!" + e);
 		}
 		return newOrderId;
 	}
@@ -211,7 +210,7 @@ public class Database {
 			preparedStatement.executeUpdate();
 		}
 		catch (SQLException e) {
-			Output.printInConsole("Error occured in updating new order Id sequence" + e);
+			Output.printInConsole("Error occurred in updating new order Id sequence" + e);
 		}
 	}
 }

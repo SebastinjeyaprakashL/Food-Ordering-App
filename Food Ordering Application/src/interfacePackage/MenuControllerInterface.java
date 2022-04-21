@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import dataPackage.HotelMenuData;
 
 public interface MenuControllerInterface {
-	public void addMenu(int hotelId,String dishName, double dishPrice);
-	public void showHotelMenu(int hotelId);
-	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId);
+	void addMenu(int hotelId,String dishName, double dishPrice);
+	void showHotelMenu(int hotelId);
+	ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId);
 }

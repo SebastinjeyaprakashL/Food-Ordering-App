@@ -14,7 +14,7 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			Output.printInConsole("Welcome To Food Ordering Console App");
-			UserAccountData currentUser = null;
+			UserAccountData currentUser;
 			Login login = new Login();
 			do {
 				currentUser = login.loginMenu();

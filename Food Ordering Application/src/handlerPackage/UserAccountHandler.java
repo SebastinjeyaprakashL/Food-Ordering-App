@@ -33,9 +33,9 @@ public class UserAccountHandler implements AccountControllerInterface {
 				Output.printInConsole("Entered password is Invalid! Please make sure your password meets all the following criteria "
 						+ "\nNOTE : "
 						+ "\n1. Password length must be greater than 8  "
-						+ "\n2. Password must contain atleast one alphabet"
-						+ "\n3. Password must contain atleast one number"
-						+ "\n4. Password must contain atleast one special character"
+						+ "\n2. Password must contain at-least one alphabet"
+						+ "\n3. Password must contain at-least one number"
+						+ "\n4. Password must contain at-least one special character"
 						+ "\nAccount creation failed for user : "+name);
 				return;
 			}
