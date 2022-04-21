@@ -3,11 +3,11 @@ package handlerPackage;
 import java.util.ArrayList;
 import inputOutputPackage.Output;
 import dataPackage.HotelMenuData;
-import databasePackage.Database;
+import databasePackage.DatabaseHandler;
 import interfacePackage.MenuControllerInterface;
 
 public class MenuHandler implements MenuControllerInterface {
-	public Database db = Database.getInstance();
+	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addMenu(int hotelId,String dishName, double dishPrice) {

@@ -2,13 +2,13 @@ package handlerPackage;
 
 import inputOutputPackage.Output;
 import dataPackage.UserAccountData;
-import databasePackage.Database;
+import databasePackage.DatabaseHandler;
 import interfacePackage.AccountControllerInterface;
 import validation.EmailValidation;
 import validation.PasswordValidation;
 
 public class UserAccountHandler implements AccountControllerInterface {
-	public Database db = Database.getInstance();
+	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addUser (String name, String email, String mobileNumber, String password) {

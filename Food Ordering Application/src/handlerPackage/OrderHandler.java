@@ -7,14 +7,14 @@ import dataPackage.HotelData;
 import dataPackage.HotelMenuData;
 import dataPackage.OrderData;
 import dataPackage.UserAccountData;
-import databasePackage.Database;
+import databasePackage.DatabaseHandler;
 import interfacePackage.MenuControllerInterface;
 import interfacePackage.OrderControllerInterface;
 
 public class OrderHandler implements OrderControllerInterface {
 	public static ArrayList <HotelMenuData> menuList ;
 	public static ArrayList <OrderData> order = new ArrayList<>();
-	Database db = Database.getInstance();
+	DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void createOrder(UserAccountData currentUser, HotelData hotel) {

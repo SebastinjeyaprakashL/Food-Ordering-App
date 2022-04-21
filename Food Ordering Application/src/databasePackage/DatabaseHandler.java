@@ -12,16 +12,16 @@ import dataPackage.HotelMenuData;
 import dataPackage.OrderData;
 import dataPackage.UserAccountData;
 
-public class Database {
+public class DatabaseHandler {
 	private final Connection dbConnection = DbConnect.getConnection();
 	private PreparedStatement preparedStatement = null;
 	private Statement statement = null;
 
-	private static final Database db = new Database();
+	private static final DatabaseHandler db = new DatabaseHandler();
 	
-	private Database() {}
+	private DatabaseHandler() {}
 	
-	public static Database getInstance() {
+	public static DatabaseHandler getInstance() {
 		return db;
 	}
 	

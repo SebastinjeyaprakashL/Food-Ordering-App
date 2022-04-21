@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import inputOutputPackage.Input;
 import inputOutputPackage.Output;
 import dataPackage.HotelData;
-import databasePackage.Database;
+import databasePackage.DatabaseHandler;
 import interfacePackage.HotelControllerInterface;
 
 public class HotelHandler implements HotelControllerInterface {
-	public Database db = Database.getInstance();
+	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addHotel (int hotelId, String hotelName) {
