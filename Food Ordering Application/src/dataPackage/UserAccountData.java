@@ -4,7 +4,7 @@ public class UserAccountData {
 	private int userId;
 	private String name;
 	private String email;
-	private long mobileNum;
+	private String mobileNum;
 	private String password;
 	public int getUserId() {
 		return userId;
@@ -24,10 +24,10 @@ public class UserAccountData {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public long getMobileNum() {
+	public String getMobileNum() {
 		return mobileNum;
 	}
-	public void setMobileNum(long mobileNum) {
+	public void setMobileNum(String mobileNum) {
 		this.mobileNum = mobileNum;
 	}
 	public String getPassword() {

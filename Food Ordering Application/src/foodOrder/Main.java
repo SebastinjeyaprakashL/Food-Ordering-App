@@ -4,7 +4,6 @@ import inputOutputPackage.Input;
 import inputOutputPackage.Output;
 import dataPackage.HotelData;
 import dataPackage.UserAccountData;
-import databasePackage.Database;
 import handlerPackage.HotelHandler;
 import handlerPackage.OrderHandler;
 import interfacePackage.HotelControllerInterface;
@@ -14,8 +13,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		try {
-			Database db = Database.getInstance();
-			db.loadDb();
 			Output.printInConsole("Welcome To Food Ordering Console App");
 			UserAccountData currentUser = null;
 			Login login = new Login();
@@ -51,8 +48,7 @@ public class Main {
 		}	
 		finally {
 			Output.printInConsole("Logged Out Successfully!");
-			System.gc();
-			
+			System.gc();		
 		}
 	}
 }

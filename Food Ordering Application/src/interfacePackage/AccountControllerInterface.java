@@ -4,7 +4,7 @@ import dataPackage.UserAccountData;
 
 public interface AccountControllerInterface {
 	
-	public void addUser (String name, String email, long mobileNumber, String password);
-	public UserAccountData verifyUser(String username, String password);
+	public void addUser (String name, String email, String mobileNumber, String password);
+	public UserAccountData getCurrentUser(String username, String password);
 	
 }

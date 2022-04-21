@@ -11,7 +11,7 @@ public class UserAccountHandler implements AccountControllerInterface {
 	public Database db = Database.getInstance();
 	
 	@Override
-	public void addUser (String name, String email, long mobileNumber, String password) {
+	public void addUser (String name, String email, String mobileNumber, String password) {
 		try {
 			UserAccountData newUser = new UserAccountData();
 			newUser.setName(name);
@@ -49,13 +49,9 @@ public class UserAccountHandler implements AccountControllerInterface {
 	}
 	
 	@Override
-	public UserAccountData verifyUser(String username, String password) {
+	public UserAccountData getCurrentUser(String username, String password) {
 		try {
-			for(UserAccountData account : db.getUserAccounts()) {
-				if(account.getEmail().equalsIgnoreCase(username) && account.getPassword().equalsIgnoreCase(password)) {
-					return account;
-				}
-			}
+			return db.getUser(username, password);
 		}
 		catch (Exception e) {
 			Output.printInConsole("Unable to verify user. Login failed ! Try again later" + e);

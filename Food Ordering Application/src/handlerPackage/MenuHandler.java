@@ -18,7 +18,7 @@ public class MenuHandler implements MenuControllerInterface {
 			menu.dishName = dishName;
 			menu.dishPrice = dishPrice;
 			
-			db.addMenuList(menu);
+			db.addHotelMenu(menu);
 		}
 		catch (Exception e) {
 			Output.printInConsole("Something went wrong. Unable to add menu! " + e);
@@ -45,19 +45,13 @@ public class MenuHandler implements MenuControllerInterface {
 	@Override
 	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId){
 		try {
-			ArrayList <HotelMenuData> menuList = new ArrayList<>();
-			for (HotelMenuData menu : db.getMenuList()) {
-				if(menu.hotelId == hotelId) {
-					menuList.add(menu);
-				}
-			}
+			ArrayList <HotelMenuData> menuList = db.getMenuList(hotelId);
 			return menuList;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-		
+		return null;		
 	}
 
 }
