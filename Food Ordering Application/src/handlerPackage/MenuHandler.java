@@ -1,7 +1,6 @@
 package handlerPackage;
 
 import java.util.ArrayList;
-
 import inputOutputPackage.Output;
 import dataPackage.HotelMenuData;
 import databasePackage.Database;
