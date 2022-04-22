@@ -19,12 +19,15 @@ public class DatabaseHandler {
 
 	private static final DatabaseHandler db = new DatabaseHandler();
 	
-	private DatabaseHandler() {}
-	
+	private DatabaseHandler() {
+		DatabaseHelper dbInitializer = new DatabaseHelper();
+		dbInitializer.createDbIfNotExists(dbConnection);
+	}
+
 	public static DatabaseHandler getInstance() {
 		return db;
 	}
-	
+
 	public UserAccountData getUser(String email, String password) {
 		try {
 			UserAccountData currentUser = new UserAccountData();
