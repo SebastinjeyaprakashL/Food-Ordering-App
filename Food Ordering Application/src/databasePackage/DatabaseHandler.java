@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import inputOutputPackage.Output;
+import threadPackage.DbInitializerThread;
 import dataPackage.HotelData;
 import dataPackage.HotelMenuData;
 import dataPackage.OrderData;
@@ -20,8 +21,9 @@ public class DatabaseHandler {
 	private static final DatabaseHandler db = new DatabaseHandler();
 	
 	private DatabaseHandler() {
-		DatabaseHelper dbInitializer = new DatabaseHelper();
-		dbInitializer.createDbIfNotExists(dbConnection);
+		Runnable dbInitializer = new DbInitializerThread();
+		Thread dbInitializerThread = new Thread(dbInitializer);
+		dbInitializerThread.start();
 	}
 
 	public static DatabaseHandler getInstance() {

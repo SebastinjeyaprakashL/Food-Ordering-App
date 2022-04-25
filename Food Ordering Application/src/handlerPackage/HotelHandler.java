@@ -31,7 +31,7 @@ public class HotelHandler implements HotelControllerInterface {
 	@Override
 	public HotelData chooseHotelToOrder () {
 		try {
-			ArrayList <HotelData> hotelList = db.getHotels();
+			ArrayList <HotelData> hotelList = getHotels();
 			HotelData chosenHotel = null;
 			do {					
 				Output.printInConsole("Enter the hotel name, from where you wish to order : ");
