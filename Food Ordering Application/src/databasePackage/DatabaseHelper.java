@@ -22,7 +22,7 @@ public class DatabaseHelper {
 			else {
 				String createDbQuery = "CREATE DATABASE 'Console Application'";
 				statement.execute(createDbQuery);
-				createTableIfNotExists (dbConnection);
+				createTables (dbConnection);
 			}
 		}
 		catch (SQLException e) {
@@ -30,7 +30,7 @@ public class DatabaseHelper {
 		}
 	}
 	
-	private void createTableIfNotExists (Connection dbConnection) {
+	private void createTables (Connection dbConnection) {
 		try {
 			ArrayList <String> tableCreationList = getTableCreationList();
 			statement = dbConnection.createStatement();
