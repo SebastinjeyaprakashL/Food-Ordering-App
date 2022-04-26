@@ -25,6 +25,7 @@ public class DatabaseHandler {
 	private DatabaseHandler() {
 		Runnable dbInitializer = new DbInitializerThread();
 		Thread dbInitializerThread = new Thread(dbInitializer);
+		dbInitializerThread.setPriority(1);
 		dbInitializerThread.start();
 	}
 
