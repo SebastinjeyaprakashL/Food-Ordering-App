@@ -36,7 +36,7 @@ public class HotelHandler implements HotelControllerInterface {
 			return HotelRetrievalThread.hotelList;
 		}
 		catch (Exception e) {
-			Output.printInConsole("Error occured while fetching available hotels");
+			Output.printInConsole("Error occurred while fetching available hotels");
 		}
 		return null;		
 	}

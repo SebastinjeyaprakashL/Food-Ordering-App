@@ -51,7 +51,7 @@ public class DatabaseHandler {
 				}
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}
 					
 		}
@@ -64,21 +64,20 @@ public class DatabaseHandler {
 	public void addUserAccount(UserAccountData newUser) throws InvalidThreadException {
 		try {
 			if(isNotAMainThread ()) {
-				
+				String 	query = "INSERT INTO food_order_application_users ( name , email , mobile , password ) VALUES ( ? , ? , ? , ? )";
+				preparedStatement = dbConnection.prepareStatement(query);
+
+				preparedStatement.setString(1, newUser.getName());
+				preparedStatement.setString(2, newUser.getEmail());
+				preparedStatement.setString(3, newUser.getMobileNum());
+				preparedStatement.setString(4, newUser.getPassword());
+				int row = preparedStatement.executeUpdate();
+				if (row > 0) {
+					Output.printInConsole("User added!");
+				}
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
-			}
-			String 	query = "INSERT INTO food_order_application_users ( name , email , mobile , password ) VALUES ( ? , ? , ? , ? )";
-			preparedStatement = dbConnection.prepareStatement(query);
-			
-			preparedStatement.setString(1, newUser.getName());
-			preparedStatement.setString(2, newUser.getEmail());
-			preparedStatement.setString(3, newUser.getMobileNum());
-			preparedStatement.setString(4, newUser.getPassword());
-			int row = preparedStatement.executeUpdate();
-			if (row > 0) {
-				Output.printInConsole("User added!");
+				throw new InvalidThreadException();
 			}
 		}
 		catch (SQLException e) {
@@ -118,7 +117,7 @@ public class DatabaseHandler {
 				}
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}
 		
 		}
@@ -143,7 +142,7 @@ public class DatabaseHandler {
 				return hotelList;
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}	
 		}
 		catch (SQLException e) {
@@ -167,7 +166,7 @@ public class DatabaseHandler {
 				}
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}
 		}
 		catch (SQLException e) {
@@ -194,7 +193,7 @@ public class DatabaseHandler {
 				return menuList;
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}
 				
 		}
@@ -221,7 +220,7 @@ public class DatabaseHandler {
 				}
 			}
 			else {
-				throw new InvalidThreadException("Should not access database with main thread");
+				throw new InvalidThreadException();
 			}
 		}
 		catch (SQLException e) {
@@ -260,10 +259,6 @@ public class DatabaseHandler {
 	}
 	
 	private boolean isNotAMainThread () {
-		if (!Thread.currentThread().getName().equalsIgnoreCase("main")) {
-			return true;
-		}else {
-			return false;
-		}
+		return !Thread.currentThread().getName().equalsIgnoreCase("main");
 	}
 }

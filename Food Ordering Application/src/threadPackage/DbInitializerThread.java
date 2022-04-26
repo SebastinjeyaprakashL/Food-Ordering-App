@@ -18,11 +18,11 @@ public class DbInitializerThread implements Runnable {
 				dbInitializer.createDbIfNotExists(dbConnection);
 			}
 			else {
-				throw new InvalidThreadException ("You can't access db from main thread");
+				throw new InvalidThreadException ();
 			}
 		}
 		catch (Exception e) {
-			Output.printInConsole("Error occured while checking for database existence");
+			Output.printInConsole("Error occurred while checking for database existence" + e);
 		}
 		
 	}
