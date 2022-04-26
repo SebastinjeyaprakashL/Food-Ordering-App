@@ -3,11 +3,11 @@ package handlerPackage;
 import java.util.ArrayList;
 import inputOutputPackage.Output;
 import dataPackage.HotelMenuData;
-import databasePackage.DatabaseHandler;
 import interfacePackage.MenuControllerInterface;
+import threadPackage.MenuInsertionThread;
+import threadPackage.MenuRetrievalThread;
 
 public class MenuHandler implements MenuControllerInterface {
-	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addMenu(int hotelId,String dishName, double dishPrice) {
@@ -17,12 +17,13 @@ public class MenuHandler implements MenuControllerInterface {
 			menu.dishName = dishName;
 			menu.dishPrice = dishPrice;
 			
-			db.addHotelMenu(menu);
+			Runnable menuData = new MenuInsertionThread(menu);
+			Thread menuInsertionThread = new Thread(menuData);
+			menuInsertionThread.start();
 		}
 		catch (Exception e) {
 			Output.printInConsole("Something went wrong. Unable to add menu! " + e);
-		}
-		
+		}	
 	}
 	
 	@Override
@@ -44,12 +45,16 @@ public class MenuHandler implements MenuControllerInterface {
 	@Override
 	public ArrayList<HotelMenuData> getCurrentHotelMenu(int hotelId){
 		try {
-			return db.getMenuList(hotelId);
+			Runnable hotelMenu = new MenuRetrievalThread(hotelId);
+			Thread menuRetrievalThread = new Thread(hotelMenu);
+			menuRetrievalThread.start();
+			menuRetrievalThread.join();
+			return MenuRetrievalThread.menuList;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;		
 	}
-
+	
 }

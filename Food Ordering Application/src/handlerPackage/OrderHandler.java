@@ -7,14 +7,13 @@ import dataPackage.HotelData;
 import dataPackage.HotelMenuData;
 import dataPackage.OrderData;
 import dataPackage.UserAccountData;
-import databasePackage.DatabaseHandler;
 import interfacePackage.MenuControllerInterface;
 import interfacePackage.OrderControllerInterface;
+import threadPackage.OrderInsertionThread;
 
 public class OrderHandler implements OrderControllerInterface {
 	public static ArrayList <HotelMenuData> menuList ;
 	public static ArrayList <OrderData> order = new ArrayList<>();
-	DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void createOrder(UserAccountData currentUser, HotelData hotel) {
@@ -52,7 +51,10 @@ public class OrderHandler implements OrderControllerInterface {
 					else {
 						Output.printInConsole("Your Order has been placed");
 						viewOrderSummary(currentUser, hotel);
-						db.addOrderList(order,currentUser, hotel);
+						
+						Runnable orderData = new OrderInsertionThread(order,currentUser, hotel);
+						Thread orderInsertionThread = new Thread(orderData);
+						orderInsertionThread.start();
 						order.clear();
 						userActionExitFlag = true;
 					}

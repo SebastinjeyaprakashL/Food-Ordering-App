@@ -2,13 +2,13 @@ package handlerPackage;
 
 import inputOutputPackage.Output;
 import dataPackage.UserAccountData;
-import databasePackage.DatabaseHandler;
 import interfacePackage.AccountControllerInterface;
+import threadPackage.UserInsertionThread;
+import threadPackage.UserRetrievalThread;
 import validation.EmailValidation;
 import validation.PasswordValidation;
 
 public class UserAccountHandler implements AccountControllerInterface {
-	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addUser (String name, String email, String mobileNumber, String password) {
@@ -40,7 +40,9 @@ public class UserAccountHandler implements AccountControllerInterface {
 				return;
 			}
 			
-			db.addUserAccount(newUser);
+			Runnable userAccount = new UserInsertionThread(newUser);
+			Thread insertUserThread = new Thread(userAccount);
+			insertUserThread.start();
 		}
 		catch (Exception e) {
 			Output.printInConsole("Something went wrong! Unable to create user account! Please try again later" + e);
@@ -51,7 +53,12 @@ public class UserAccountHandler implements AccountControllerInterface {
 	@Override
 	public UserAccountData getCurrentUser(String username, String password) {
 		try {
-			return db.getUser(username, password);
+			
+			Runnable currentUser = new UserRetrievalThread(username, password);
+			Thread userRetrievalThread = new Thread(currentUser);
+			userRetrievalThread.start();
+			userRetrievalThread.join();
+			return UserRetrievalThread.currentUser;
 		}
 		catch (Exception e) {
 			Output.printInConsole("Unable to verify user. Login failed ! Try again later" + e);

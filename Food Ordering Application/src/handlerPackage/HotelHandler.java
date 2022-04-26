@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import inputOutputPackage.Input;
 import inputOutputPackage.Output;
 import dataPackage.HotelData;
-import databasePackage.DatabaseHandler;
 import interfacePackage.HotelControllerInterface;
+import threadPackage.HotelInsertionThread;
+import threadPackage.HotelRetrievalThread;
 
 public class HotelHandler implements HotelControllerInterface {
-	public DatabaseHandler db = DatabaseHandler.getInstance();
 	
 	@Override
 	public void addHotel (int hotelId, String hotelName) {
@@ -16,7 +16,10 @@ public class HotelHandler implements HotelControllerInterface {
 			HotelData newHotel = new HotelData();
 			newHotel.hotelId = hotelId;
 			newHotel.hotelName = hotelName;
-			db.addHotel(newHotel);
+			
+			Runnable hotelData = new HotelInsertionThread(newHotel);
+			Thread hotelInsertionThread = new Thread(hotelData);
+			hotelInsertionThread.start();
 		}
 		catch (Exception e) {
 			Output.printInConsole("Something went wrong! Unable to add new Hotel. Please contact admin \n" + e );
@@ -25,7 +28,17 @@ public class HotelHandler implements HotelControllerInterface {
 
 	@Override
 	public ArrayList<HotelData> getHotels() {
-		return db.getHotels();
+		try {
+			Runnable hotelList = new HotelRetrievalThread();
+			Thread hotelRetrievalThread = new Thread(hotelList);
+			hotelRetrievalThread.start();
+			hotelRetrievalThread.join();
+			return HotelRetrievalThread.hotelList;
+		}
+		catch (Exception e) {
+			Output.printInConsole("Error occured while fetching available hotels");
+		}
+		return null;		
 	}
 	
 	@Override

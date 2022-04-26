@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import customExceptionPackage.InvalidThreadException;
 import inputOutputPackage.Output;
 import threadPackage.DbInitializerThread;
 import dataPackage.HotelData;
@@ -30,22 +32,28 @@ public class DatabaseHandler {
 		return db;
 	}
 
-	public UserAccountData getUser(String email, String password) {
+	public UserAccountData getUser(String email, String password) throws InvalidThreadException {
 		try {
-			UserAccountData currentUser = new UserAccountData();
-			String query = "SELECT * "
-					+ "FROM food_order_application_users AS a "
-					+ "WHERE a.email = '" + email +"' and a.password = '" + password +"'";
-			statement = dbConnection.createStatement();
-			ResultSet userData = statement.executeQuery(query);
-			if(userData.next()) {
-				currentUser.setUserId(userData.getInt("UserId"));
-				currentUser.setName(userData.getString("name"));
-				currentUser.setEmail(userData.getString("email"));
-				currentUser.setMobileNum(userData.getString("mobile"));
-				currentUser.setPassword(userData.getString("password"));
-				return currentUser;
-			}		
+			if(isNotAMainThread ()) {
+				UserAccountData currentUser = new UserAccountData();
+				String query = "SELECT * "
+						+ "FROM food_order_application_users AS a "
+						+ "WHERE a.email = '" + email +"' and a.password = '" + password +"'";
+				statement = dbConnection.createStatement();
+				ResultSet userData = statement.executeQuery(query);
+				if(userData.next()) {
+					currentUser.setUserId(userData.getInt("UserId"));
+					currentUser.setName(userData.getString("name"));
+					currentUser.setEmail(userData.getString("email"));
+					currentUser.setMobileNum(userData.getString("mobile"));
+					currentUser.setPassword(userData.getString("password"));
+					return currentUser;
+				}
+			}
+			else {
+				throw new InvalidThreadException("Should not access database with main thread");
+			}
+					
 		}
 		catch (SQLException e) {
 			Output.printInConsole("Couldn't fetch user data from database ! Please contact administrator" + e);
@@ -53,8 +61,14 @@ public class DatabaseHandler {
 		return null;
 	}
 
-	public void addUserAccount(UserAccountData newUser) {
+	public void addUserAccount(UserAccountData newUser) throws InvalidThreadException {
 		try {
+			if(isNotAMainThread ()) {
+				
+			}
+			else {
+				throw new InvalidThreadException("Should not access database with main thread");
+			}
 			String 	query = "INSERT INTO food_order_application_users ( name , email , mobile , password ) VALUES ( ? , ? , ? , ? )";
 			preparedStatement = dbConnection.prepareStatement(query);
 			
@@ -75,52 +89,62 @@ public class DatabaseHandler {
 		}
 	}
 
-	public void addOrderList(ArrayList <OrderData> orderList, UserAccountData currentUser, HotelData currentHotel) {
+	public void addOrderList(ArrayList <OrderData> orderList, UserAccountData currentUser, HotelData currentHotel) throws InvalidThreadException {
 		boolean isOrderPlacedFlag = false;
 		try {
-			int newOrderId = getNewOrderId();
-			for (OrderData order : orderList) {
-				String query = "INSERT INTO food_order_application_orders ( orderId , hotelId , userId , dishName , quantity ) VALUES ( ? , ? , ? , ? , ?)";
-				preparedStatement = dbConnection.prepareStatement(query);
-				preparedStatement.setInt(1, newOrderId);
-				preparedStatement.setInt(2, currentHotel.hotelId);
-				preparedStatement.setInt(3, currentUser.getUserId());
-				preparedStatement.setString(4, order.dishName);
-				preparedStatement.setInt(5, order.dishCount);
-				int row = preparedStatement.executeUpdate();
-				if (row > 0) {
-					preparedStatement = null;
-					isOrderPlacedFlag = true;
+			if(isNotAMainThread ()) {
+				int newOrderId = getNewOrderId();
+				for (OrderData order : orderList) {
+					String query = "INSERT INTO food_order_application_orders ( orderId , hotelId , userId , dishName , quantity ) VALUES ( ? , ? , ? , ? , ?)";
+					preparedStatement = dbConnection.prepareStatement(query);
+					preparedStatement.setInt(1, newOrderId);
+					preparedStatement.setInt(2, currentHotel.hotelId);
+					preparedStatement.setInt(3, currentUser.getUserId());
+					preparedStatement.setString(4, order.dishName);
+					preparedStatement.setInt(5, order.dishCount);
+					int row = preparedStatement.executeUpdate();
+					if (row > 0) {
+						preparedStatement = null;
+						isOrderPlacedFlag = true;
+					}
+					else {
+						isOrderPlacedFlag = false;
+						Output.printInConsole("Unable to place order!");
+						break;
+					}		
 				}
-				else {
-					isOrderPlacedFlag = false;
-					Output.printInConsole("Unable to place order!");
-					break;
-				}		
+				if (isOrderPlacedFlag) {
+					updateOrderSeq(newOrderId+1);
+				}
 			}
-			if (isOrderPlacedFlag) {
-				updateOrderSeq(newOrderId+1);
+			else {
+				throw new InvalidThreadException("Should not access database with main thread");
 			}
+		
 		}
 		catch (SQLException e) {
 			Output.printInConsole("Error occurred while placing new Order! " + e);
 		}
 	}
 
-	public ArrayList <HotelData> getHotels() {
+	public ArrayList <HotelData> getHotels() throws InvalidThreadException {
 		try {
-			ArrayList <HotelData> hotelList = new ArrayList<>();
-			
-			String query = "SELECT * FROM food_order_application_hotels";
-			statement = dbConnection.createStatement();
-			ResultSet hotelData = statement.executeQuery(query);
-			while (hotelData.next()) {
-				HotelData hotel = new HotelData();
-				hotel.hotelId = hotelData.getInt("hotelId");
-				hotel.hotelName = hotelData.getString("name");
-				hotelList.add(hotel);
+			if(isNotAMainThread ()) {
+				ArrayList <HotelData> hotelList = new ArrayList<>();
+				String query = "SELECT * FROM food_order_application_hotels";
+				statement = dbConnection.createStatement();
+				ResultSet hotelData = statement.executeQuery(query);
+				while (hotelData.next()) {
+					HotelData hotel = new HotelData();
+					hotel.hotelId = hotelData.getInt("hotelId");
+					hotel.hotelName = hotelData.getString("name");
+					hotelList.add(hotel);
+				}
+				return hotelList;
 			}
-			return hotelList;	
+			else {
+				throw new InvalidThreadException("Should not access database with main thread");
+			}	
 		}
 		catch (SQLException e) {
 			Output.printInConsole("Couldn't fetch hotel list from database !" + e);
@@ -128,17 +152,22 @@ public class DatabaseHandler {
 		return null;
 	}
 
-	public void addHotel(HotelData newHotel) {
+	public void addHotel(HotelData newHotel) throws InvalidThreadException {
 		try {
-			String query = "INSERT INTO food_order_application_hotels ( name ) VALUES ( ? )";
-			preparedStatement = dbConnection.prepareStatement(query);
-			preparedStatement.setString(1, newHotel.hotelName);
-			int row = preparedStatement.executeUpdate();
-			if (row > 0) {
-				Output.printInConsole("Hotel added!");
+			if(isNotAMainThread ()) {
+				String query = "INSERT INTO food_order_application_hotels ( name ) VALUES ( ? )";
+				preparedStatement = dbConnection.prepareStatement(query);
+				preparedStatement.setString(1, newHotel.hotelName);
+				int row = preparedStatement.executeUpdate();
+				if (row > 0) {
+					Output.printInConsole("Hotel added!");
+				}
+				else {
+					Output.printInConsole("Error occurred while adding new hotel! ");
+				}
 			}
 			else {
-				Output.printInConsole("Error occurred while adding new hotel! ");
+				throw new InvalidThreadException("Should not access database with main thread");
 			}
 		}
 		catch (SQLException e) {
@@ -149,19 +178,25 @@ public class DatabaseHandler {
 		}
 	}
 
-	public ArrayList <HotelMenuData> getMenuList(int hotelId) {
+	public ArrayList <HotelMenuData> getMenuList(int hotelId) throws InvalidThreadException {
 		try {
-			ArrayList <HotelMenuData> menuList = new ArrayList<>();
-			String query = "SELECT * FROM food_order_application_hotel_menu as menu WHERE menu.hotelId = " + hotelId ;
-			statement = dbConnection.createStatement();
-			ResultSet menuData = statement.executeQuery(query);
-			while (menuData.next()) {
-				HotelMenuData menu = new HotelMenuData();
-				menu.dishName = menuData.getString("name");
-				menu.dishPrice = menuData.getDouble("price");
-				menuList.add(menu);
+			if(isNotAMainThread ()) {
+				ArrayList <HotelMenuData> menuList = new ArrayList<>();
+				String query = "SELECT * FROM food_order_application_hotel_menu as menu WHERE menu.hotelId = " + hotelId ;
+				statement = dbConnection.createStatement();
+				ResultSet menuData = statement.executeQuery(query);
+				while (menuData.next()) {
+					HotelMenuData menu = new HotelMenuData();
+					menu.dishName = menuData.getString("name");
+					menu.dishPrice = menuData.getDouble("price");
+					menuList.add(menu);
+				}
+				return menuList;
 			}
-			return menuList;	
+			else {
+				throw new InvalidThreadException("Should not access database with main thread");
+			}
+				
 		}
 		catch (SQLException e) {
 			Output.printInConsole("Couldn't fetch menu list for the selected hotel" + e);
@@ -169,19 +204,24 @@ public class DatabaseHandler {
 		return null;
 	}
 
-	public void addHotelMenu(HotelMenuData menu) {
+	public void addHotelMenu(HotelMenuData menu) throws InvalidThreadException {
 		try {
-			String query = "INSERT INTO food_order_application_hotel_menu ( hotelId , name , price ) VALUES ( ? , ? , ? )";
-			preparedStatement = dbConnection.prepareStatement(query);
-			preparedStatement.setInt(1, menu.hotelId);
-			preparedStatement.setString(2, menu.dishName);
-			preparedStatement.setDouble(3, menu.dishPrice);
-			int row = preparedStatement.executeUpdate();
-			if( row > 0) {
-				Output.printInConsole("Menu added");
+			if(isNotAMainThread ()) {
+				String query = "INSERT INTO food_order_application_hotel_menu ( hotelId , name , price ) VALUES ( ? , ? , ? )";
+				preparedStatement = dbConnection.prepareStatement(query);
+				preparedStatement.setInt(1, menu.hotelId);
+				preparedStatement.setString(2, menu.dishName);
+				preparedStatement.setDouble(3, menu.dishPrice);
+				int row = preparedStatement.executeUpdate();
+				if( row > 0) {
+					Output.printInConsole("Menu added");
+				}
+				else {
+					Output.printInConsole("Error in adding new menu !");
+				}
 			}
 			else {
-				Output.printInConsole("Error in adding new menu !");
+				throw new InvalidThreadException("Should not access database with main thread");
 			}
 		}
 		catch (SQLException e) {
@@ -216,6 +256,14 @@ public class DatabaseHandler {
 		}
 		catch (SQLException e) {
 			Output.printInConsole("Error occurred in updating new order Id sequence" + e);
+		}
+	}
+	
+	private boolean isNotAMainThread () {
+		if (!Thread.currentThread().getName().equalsIgnoreCase("main")) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

@@ -4,6 +4,7 @@ import inputOutputPackage.Input;
 import inputOutputPackage.Output;
 import dataPackage.HotelData;
 import dataPackage.UserAccountData;
+import databasePackage.DatabaseHandler;
 import handlerPackage.HotelHandler;
 import handlerPackage.OrderHandler;
 import interfacePackage.HotelControllerInterface;
@@ -13,6 +14,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		try {
+			DatabaseHandler db = DatabaseHandler.getInstance();
 			Output.printInConsole("Welcome To Food Ordering Console App");
 			UserAccountData currentUser;
 			Login login = new Login();
