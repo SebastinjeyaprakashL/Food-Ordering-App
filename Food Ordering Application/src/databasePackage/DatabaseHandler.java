@@ -23,10 +23,21 @@ public class DatabaseHandler {
 	private static final DatabaseHandler db = new DatabaseHandler();
 	
 	private DatabaseHandler() {
-		Runnable dbInitializer = new DbInitializerThread();
-		Thread dbInitializerThread = new Thread(dbInitializer);
-		dbInitializerThread.setPriority(1);
-		dbInitializerThread.start();
+		try {
+			if(isNotAMainThread ()) {
+
+				Runnable dbInitializer = new DbInitializerThread();
+				Thread dbInitializerThread = new Thread(dbInitializer);
+				dbInitializerThread.setPriority(1);
+				dbInitializerThread.start();
+			}
+			else {
+				throw new InvalidThreadException();
+			}
+		}
+		catch (Exception e) {
+			Output.printInConsole("Couldn't initialize DB");
+		}
 	}
 
 	public static DatabaseHandler getInstance() {
